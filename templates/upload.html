@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- The sidebar -->
+<div class="row navbar-collapse">
+    <div class="col-md-2 d-none d-md-block sidebar bg-light">
+        <a class="nav-link" href="{% url 'dash' %}">
+            <span data-feather="home"></span>
+            Dashboard <span class="sr-only">(current)</span>
+        </a>
+        <a class="nav-link" href="{% url 'view' %}">
+            <span data-feather="file"></span>
+            Files
+        </a>
+        <a class="nav-link active" href="{% url 'upload' %}">
+            <span data-feather="upload-cloud"></span>
+            Upload
+        </a>
+        <a class="nav-link" href="{% url 'download' %}">
+            <span data-feather="download-cloud"></span>
+            Download
+        </a>
+        <a class="nav-link" href="{% url 'settings' %}">
+            <span data-feather="settings"></span>
+            Settings
+        </a>
+        <a class="nav-link" href="{% url 'account' %}">
+            <span data-feather="user"></span>
+            Account
+        </a>
+    </div>
+</div>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+    <form class="was-validated upload-form" method="POST" enctype="multipart/form-data" action="{% url 'upload_file' %}" >
+        {% csrf_token %}
+        <input type="file" name="myfile" required>
+        <p>Drag and drop a file or Click here</p>
+        <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
+    </form>
+    {% if messages %}
+    {% for message in messages %}
+    <div class="text-center container">
+        <span class="text-danger text-center mt-1" id="myDiv"><strong>{{message}}</strong></span>
+    </div>
+    {% endfor %}
+    {% endif %}
+</main>
+{% endblock %}

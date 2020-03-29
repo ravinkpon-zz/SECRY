@@ -1,0 +1,121 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Secry-Sign Up</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- Font Icon -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+    <!-- Main css -->
+    <link rel="stylesheet" href="{% static 'css/style_login.css' %}">
+    <link rel="icon" href="{% static 'images/logot-25.png' %}" type="image/x-icon">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <!-- Page Loader -->
+    <div class="loader"></div>
+    <div class="signup-main container-fluid">
+        <!-- Sign up form -->
+        <section class="signup">
+            <div class="container">
+                <div class="signup-content">
+                    <div class="signup-form">
+                        <h2 class="form-title">Sign up</h2>
+                        <form method="POST" class="register-form was-validated needs-validation" id="register-form" action="{% url 'register' %}" >
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="firstname" id="fname" placeholder="First Name" pattern="[a-zA-Z]+" title=" Valid name only"  required />
+                                <div class="invalid-tooltip">Please enter a valid name.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                                <input type="text" name="lastname" id="lname" placeholder="Last Name" pattern="[a-zA-Z]+" title=" Valid name only" required />
+                                <div class="invalid-tooltip">Please enter a valid name.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name"><i class="zmdi zmdi-account-circle material-icons-name"></i></label>
+                                <input type="text" name="username" id="uname" placeholder="Username" required/>
+                                <div class="invalid-tooltip">Please choose a unique and valid username.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email"><i class="zmdi zmdi-email"></i></label>
+                                <input type="email" name="email" id="email" placeholder="Email" required/>
+                                <div class="invalid-tooltip">Please enter a valid email..</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
+                                <input type="password" name="password1" id="pass" placeholder="Password" pattern=".{8,}" title="Atleast eight or more characters" required />
+                                <div class="invalid-tooltip">Please enter a valid password.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                                <input type="password" name="password2" id="re_pass" placeholder="Retype your password" required/>
+                            </div>
+                            <div class="form-group">
+                                <label for="location"><i class="zmdi zmdi-my-location"></i></label>
+                                <input type="text" name="location" id="locate" placeholder="Place" required/>
+                                <div class="invalid-tooltip">Please enter a valid location.</div>
+                            </div>
+                            <div class="form-group">
+                                <label for="phone"><i class="zmdi zmdi-phone"></i></label>
+                                <input type="tel" id="phone" name="phone" pattern="[0-9]{10}" placeholder="Phone No: 9445215362" required/>
+                                <div class="invalid-tooltip">Please enter a valid phone number.</div>
+                            </div>
+                            <div class="form-group form-button">
+                                <input type="submit" name="signup" id="signup" class="form-submit" value="Register" />
+                                {% for message in messages %}
+                                <span class="text-danger ml-2" id="myDiv"><strong> {{message}} </strong></span>
+                                {% endfor %}
+                            </div>
+                        </form>
+                    </div>
+                    <div class="signup-image d-sm-none d-md-block">
+                        <figure><img src="{% static 'images/signin-image.jpg' %}" alt="sing up image"></figure>
+                        <a href="{% url 'signin' %}" class="signup-image-link">I am already member</a>
+                    </div>
+                </div>
+            </div>
+            <script>
+                
+            </script>
+        </section>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="text-muted footer" style="align-items: center;text-align: center;line-height: 10px;">
+        <div class="container-sm">
+            <p>&copy; Secry - 2020</p>
+            <p>Developed by Alin Babu | Akshay P S | Rahul M</p>
+        </div>
+    </footer>
+    </div>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
+    <script src="{% static '/js/load.js' %}"></script>
+    <script src="{% static '/js/valid.js' %}"></script>
+</body>
+
+</html>
