@@ -367,3 +367,18 @@ def generate(request):
             os.remove(attach)
             messages.info(request, "Key send to the email")
             return redirect('view')
+
+def delete_account(request):
+    user = User.objects.get(username=request.user.username)
+    current_user = request.user.user_id
+    files = file_info.objects.filter(user_id=current_user)
+    for file in files:
+        index=0
+        fileid = file.file_id
+        while(index < 3):
+            id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
+            data = file_storage.objects.using(storedb[index]).get(store_id=id)
+            data.delete()
+            index = index+1 
+    user.delete()
+    return redirect('view')
