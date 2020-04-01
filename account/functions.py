@@ -5,11 +5,6 @@ from django.http import request
 from .encrypt import *
 from .decrypt import *
 import os
-import smtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-from email.mime.base import MIMEBase
-from email import encoders
 readsize = 1024
 
 
