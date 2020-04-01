@@ -114,15 +114,14 @@ def upload_file(request):
         else:
             dest = './media/temp'
             size = myfile.size
+            listDir = os.listdir(dest)
             filesize = size/(1024*1024)
             filesize = "{:.2f}".format(filesize)
             fileid = my_random_string(8)
             split(myfile)
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
-            listDir = os.listdir(dest)
-            info = file_info.objects.create(
-            file_id=fileid, file_name=file_name, user=request.user, file_size=filesize,file_key=key,file_keydata=data)
+            info = file_info.objects.create(ile_id=fileid, file_name=file_name, user=request.user, file_size=filesize,file_key=key,file_keydata=data)
             info.save()
             for file in listDir:
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
@@ -157,6 +156,9 @@ def upload_file(request):
             email.attach_file(attach)
             email.send(fail_silently=False)
             os.remove(attach)
+            for file in listDir:
+                if file:
+                    file_path = os.remove(dest+'/'+file)
             messages.info(request,"File uploaded successfull.")
             return redirect('view')
 
@@ -178,7 +180,10 @@ def download_file(request):
             index = 0
             while(index<3):
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
-                data = file_storage.objects.using(storedb[index]).get(store_id=id)
+                try:
+                    data = file_storage.objects.using(storedb[index]).get(store_id=id)
+                except:
+                    pass
                 fname = file_name.split('.')
                 file_path = dest +fname[0] + '_' + str(index+1) + '.' + fname[1]
                 print(file_path)
@@ -316,8 +321,6 @@ def delete_file(request):
     global file_name
     global storedb
     if request.method == 'POST' and request.FILES['keyfile']:
-        dest1 = './media/keys/'
-        dest = './media/initial_vector/'
         keyfile = request.FILES['keyfile']
         fileid = request.POST['fileid']
         file_name = request.POST['filename']
@@ -333,10 +336,12 @@ def delete_file(request):
         index=0
         while(index < 3):
             id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
-            data = file_storage.objects.using(storedb[index]).get(store_id=id)
-            data.delete()
+            try :
+                data = file_storage.objects.using(storedb[index]).get(store_id=id)
+                data.delete()
+            except:
+                pass
             index = index+1 
-        os.remove(dest1+fileid+'.png')
         files = file_info.objects.get(file_id=fileid)
         files.delete()
         messages.info(request, "File deleted sucessfully.")

@@ -8,7 +8,17 @@ import requests
 import urllib.request
 from django.core.files.storage import FileSystemStorage
 
+
+def enc_order():
+    order = random.sample(range(0, 3), 3)
+    return order
+
+
 def generateKey(id):
+    listDir = os.listdir('./media/keys/')
+    for file in listDir:
+        if file:
+            file_path = os.remove('./media/keys/'+file)
     key = os.urandom(16)
     iv1 = os.urandom(16)
     iv2 = os.urandom(8)
@@ -47,8 +57,3 @@ def FetchKey(keyfile):
     iv2 = b64decode(iv[2].encode('utf-8'))
     os.remove(path)
     return key, iv1, iv2
-
-
-def enc_order():
-    order = random.sample(range(0, 3), 3)
-    return order
