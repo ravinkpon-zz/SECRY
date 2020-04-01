@@ -122,7 +122,6 @@ def upload_file(request):
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
             info = file_info.objects.create(file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
-            info.save()
             for file in listDir:
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
                 file_path = os.path.join(dest+'/'+file)
@@ -140,8 +139,8 @@ def upload_file(request):
                 with open(file_path, 'rb') as file:
                     binaryData = file.read()
                 data = file_storage.objects.using(storedb[index]).create(store_id=id,content=binaryData)
-                os.remove(file_path)
                 data.save(using=storedb[index])
+                os.remove(file_path)
                 index = index+1
             mail = request.user.email
             name = request.user.first_name
@@ -159,6 +158,7 @@ def upload_file(request):
             for file in listDir:
                 if file:
                     file_path = os.remove(dest+'/'+file)
+            info.save()
             messages.info(request,"File uploaded successfull.")
             return redirect('view')
 
