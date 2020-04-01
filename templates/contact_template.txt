@@ -4,4 +4,4 @@ Email:          {{ contact_email }}
 
 Phone No:       {{ contact_phone }}
 
-Content:-       {{ form_content|safe|striptags }}
+Content:       {{ form_content|safe|striptags }}

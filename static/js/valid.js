@@ -20,6 +20,7 @@ window.onload = function () {
     }
 }
 
+
 // Disable form submissions if there are invalid fields
 (function () {
     'use strict';

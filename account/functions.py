@@ -41,7 +41,6 @@ def join(fromdir, tofile):
         os.remove(filepath)
     output.close()
 
-
 def encypt(alnum, key, file_path, iv):
     if(alnum == 0):
         AES(key, file_path, iv)
@@ -49,7 +48,6 @@ def encypt(alnum, key, file_path, iv):
         DES(key, file_path, iv)
     elif(alnum == 2):
         RC4(key, file_path, iv)
-
 
 def decrypt(alnum, key, file_path, iv):
     if(alnum == 0):

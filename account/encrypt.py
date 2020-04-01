@@ -43,7 +43,6 @@ def RC4(key, file_path,iv):
     f.write(cont)
     f.close()
 
-
 def DES(key, file_path,iv):
     f = open(file_path, "r")
     content = f.read()

@@ -16,7 +16,6 @@ def DAES(key, file_path,iv):
     f.write(content)
     f.close()
 
-
 def DRC4(key, file_path,iv):
     f = open(file_path, "rb")
     content = f.read()

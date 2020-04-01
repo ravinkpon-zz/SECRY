@@ -38,7 +38,6 @@ def signin(request):
     else:
         return render(request, 'signin.html')
 
-
 def signout(request):
     if request.method == "POST":
         logout(request)

@@ -13,7 +13,6 @@ def enc_order():
     order = random.sample(range(0, 3), 3)
     return order
 
-
 def generateKey(id):
     listDir = os.listdir('./media/keys/')
     for file in listDir:

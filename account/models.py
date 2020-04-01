@@ -12,7 +12,6 @@ class file_info(models.Model):
     file_key = models.CharField(max_length=150)
     file_keydata = models.CharField(max_length=150)
 
-
 class file_storage(models.Model):
     store_id = models.CharField(max_length=150, primary_key=True)
     content = models.BinaryField()

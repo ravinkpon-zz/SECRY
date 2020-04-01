@@ -21,6 +21,7 @@ from django.conf.urls.static import static
 from django.conf.urls import handler404, handler500
 from home import views as myapp_views
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('home.urls')),

@@ -165,7 +165,6 @@ def upload_file(request):
             messages.info(request,"File uploaded successfull.")
             return redirect('view')
 
-
 def download_file(request):
     global file_name
     global storedb
