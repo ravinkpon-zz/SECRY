@@ -121,8 +121,7 @@ def upload_file(request):
             split(myfile)
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
-            info = file_info.objects.create(
-                file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
+            info = file_info.objects.create(file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
             info.save()
             for file in listDir:
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
