@@ -16,4 +16,5 @@ urlpatterns = [
     path('accounts/download_file', views.download_file, name='download_file'),
     path('accounts/upload_file', views.upload_file, name='upload_file'),
     path('accounts/delete_file', views.delete_file, name='delete_file'),
+    path('accounts/delete_account', views.delete_account, name='delete_account'),
 ]

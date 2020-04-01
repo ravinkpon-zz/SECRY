@@ -80,30 +80,33 @@ WSGI_APPLICATION = 'secry.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'secry_db1',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST' : 'localhost',
+        'NAME': 'secrydb',
+        'USER': 'admin',
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'secry-database.c4o6f1o9wuwa.ap-south-1.rds.amazonaws.com',
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     },
     'storage1': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'secry_db2',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'NAME': 'secrydb',
+        'USER': 'admin',
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'secry-database.ckc2unj2jxnh.eu-central-1.rds.amazonaws.com',
+        'PORT': '3315',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
     },
     'storage2': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'secry_db3',
-        'USER': 'root',
-        'PASSWORD': '',
-        'HOST': 'localhost',
+        'NAME': 'secrydb',
+        'USER': 'admin',
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': 'secry-database.ccqqnkzzo3fl.us-east-1.rds.amazonaws.com',
+        'PORT': '3320',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }

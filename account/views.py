@@ -377,8 +377,11 @@ def delete_account(request):
         fileid = file.file_id
         while(index < 3):
             id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
-            data = file_storage.objects.using(storedb[index]).get(store_id=id)
-            data.delete()
+            try:
+                data = file_storage.objects.using(storedb[index]).get(store_id=id)
+                data.delete()
+            except:
+                pass 
             index = index+1 
     user.delete()
     return redirect('view')
