@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -94,8 +94,8 @@ DATABASES = {
         'NAME': 'secrydb',
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'secry-database.ckc2unj2jxnh.eu-central-1.rds.amazonaws.com',
-        'PORT': '3315',
+        'HOST': 'secry-database.cs4kao1uoahe.ap-southeast-2.rds.amazonaws.com',
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
@@ -105,8 +105,8 @@ DATABASES = {
         'NAME': 'secrydb',
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'secry-database.ccqqnkzzo3fl.us-east-1.rds.amazonaws.com',
-        'PORT': '3320',
+        'HOST': 'secry-database.cyreueplspjw.ap-southeast-1.rds.amazonaws.com',
+        'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }

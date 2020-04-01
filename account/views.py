@@ -298,7 +298,8 @@ def edituser(request):
             valid_email = True
         except:
             valid_email = False
-        if((valid_email == False) or (email_exists == False)):
+        print(valid_email)
+        if valid_email == False or email_exists == False :
             messages.info(request, "Email does not exists.")
             user = User.objects.get(username=request.user.username)
             return render(request, 'settings.html', {"user": user})
@@ -306,8 +307,7 @@ def edituser(request):
             user = User.objects.get(username=request.user.username)
             current_user = request.user
             uid = current_user.user_id
-
-            user = User.objects.get(id=uid)
+            user = User.objects.get(user_id=uid)
             user.first_name = first_name
             user.last_name = last_name
             user.username = username
