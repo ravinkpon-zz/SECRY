@@ -114,15 +114,21 @@ def upload_file(request):
         else:
             dest = './media/temp'
             size = myfile.size
-            listDir = os.listdir(dest)
+            Dir = os.listdir(dest)
+            for file in Dir:
+                if file:
+                    os.remove(dest+'/'+file)
             filesize = size/(1024*1024)
             filesize = "{:.2f}".format(filesize)
             fileid = my_random_string(8)
             split(myfile)
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
+            print(alnum)
+            listDir = os.listdir(dest)
             info = file_info.objects.create(file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
             for file in listDir:
+                print(file)
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
                 file_path = os.path.join(dest+'/'+file)
                 file_path = shutil.move(file_path,'./media')
@@ -155,9 +161,6 @@ def upload_file(request):
             email.attach_file(attach)
             email.send(fail_silently=False)
             os.remove(attach)
-            for file in listDir:
-                if file:
-                    file_path = os.remove(dest+'/'+file)
             info.save()
             messages.info(request,"File uploaded successfull.")
             return redirect('view')
