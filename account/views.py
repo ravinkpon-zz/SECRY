@@ -116,9 +116,12 @@ def upload_file(request):
             dest = os.path.join(BASE_DIR, '/media/temp/')
             size = myfile.size
             Dir = os.listdir(dest)
-            for file in Dir:
-                if file:
-                    os.remove(dest+'/'+file)
+            try :
+                for file in Dir:
+                    if file:
+                        os.remove(dest+'/'+file)
+            except:
+                pass
             filesize = size/(1024*1024)
             filesize = "{:.2f}".format(filesize)
             fileid = my_random_string(8)
