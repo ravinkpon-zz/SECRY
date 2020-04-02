@@ -25,6 +25,7 @@ import smtplib,hashlib
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.core.mail import EmailMessage
+from secry.settings import BASE_DIR
 
 
 
@@ -112,7 +113,7 @@ def upload_file(request):
             messages.warning(request, 'File with same name already exists.')
             return redirect('view')
         else:
-            dest = './media/temp'
+            dest = os.path.join(BASE_DIR, '/media/temp/')
             size = myfile.size
             Dir = os.listdir(dest)
             for file in Dir:
@@ -130,8 +131,8 @@ def upload_file(request):
             for file in listDir:
                 print(file)
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
-                file_path = os.path.join(dest+'/'+file)
-                file_path = shutil.move(file_path,'./media')
+                file_path = os.path.join(dest,file)
+                file_path = shutil.move(file_path,BASE_DIR +'/media')
                 if(alnum[index] == 1):
                     iv = iv2
                 else:
@@ -150,7 +151,7 @@ def upload_file(request):
                 index = index+1
             mail = request.user.email
             name = request.user.first_name
-            attach = './media/keys/' + fileid + '.png'
+            attach = BASE_DIR + '/media/keys/' + fileid + '.png'
             email = EmailMessage(
                 'Key of '+fileid,
                 'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
@@ -169,7 +170,7 @@ def download_file(request):
     global file_name
     global storedb
     if request.method == 'POST' and request.FILES['keyfile']:
-        dest = './media/temp/'
+        dest = os.path.join(BASE_DIR,'/media/temp/')
         keyfile = request.FILES['keyfile']
         fileid = request.POST['fileid']
         file_name = request.POST['filename']
@@ -210,7 +211,7 @@ def download_file(request):
                     iv = iv1
                 decrypt(alnum, key, file_path, iv)
                 index = index+1
-            todir = './media/' + file_name
+            todir = BASE_DIR + '/media/' + file_name
             join(dest, todir)
             if os.path.exists(todir):
                 with open(todir, 'rb') as fh:
