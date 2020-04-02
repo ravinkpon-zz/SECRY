@@ -113,15 +113,12 @@ def upload_file(request):
             messages.warning(request, 'File with same name already exists.')
             return redirect('view')
         else:
-            dest = os.path.join(BASE_DIR, '/media/temp/')
+            dest = './media/temp/'
             size = myfile.size
             Dir = os.listdir(dest)
-            try :
-                for file in Dir:
-                    if file:
-                        os.remove(dest+'/'+file)
-            except:
-                pass
+            for file in Dir:
+                if file:
+                    os.remove(dest+'/'+file)
             filesize = size/(1024*1024)
             filesize = "{:.2f}".format(filesize)
             fileid = my_random_string(8)
@@ -154,7 +151,7 @@ def upload_file(request):
                 index = index+1
             mail = request.user.email
             name = request.user.first_name
-            attach = BASE_DIR + '/media/keys/' + fileid + '.png'
+            attach = './media/keys/' + fileid + '.png'
             email = EmailMessage(
                 'Key of '+fileid,
                 'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
@@ -173,7 +170,7 @@ def download_file(request):
     global file_name
     global storedb
     if request.method == 'POST' and request.FILES['keyfile']:
-        dest = os.path.join(BASE_DIR,'/media/temp/')
+        dest = './media/temp/'
         keyfile = request.FILES['keyfile']
         fileid = request.POST['fileid']
         file_name = request.POST['filename']
@@ -214,7 +211,7 @@ def download_file(request):
                     iv = iv1
                 decrypt(alnum, key, file_path, iv)
                 index = index+1
-            todir = BASE_DIR + '/media/' + file_name
+            todir = './media/' + file_name
             join(dest, todir)
             if os.path.exists(todir):
                 with open(todir, 'rb') as fh:
