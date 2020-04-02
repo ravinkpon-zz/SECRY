@@ -134,7 +134,7 @@ def upload_file(request):
                 print(file)
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
                 file_path = os.path.join(dest,file)
-                file_path = shutil.move(file_path,BASE_DIR +'/media')
+                file_path = shutil.move(file_path,'./media')
                 if(alnum[index] == 1):
                     iv = iv2
                 else:
