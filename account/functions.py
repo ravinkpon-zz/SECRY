@@ -12,7 +12,7 @@ def split(file):
     fs = FileSystemStorage()
     filename = fs.save(file.name, file)
     uploaded_file_url = fs.url(file.name)
-    source = './' + uploaded_file_url
+    source = '.' + uploaded_file_url
     dest = './media/temp'
     chunks = (int)((file.size)/2)
     fs = FileSplit(source, chunks, dest)
