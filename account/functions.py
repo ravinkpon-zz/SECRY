@@ -4,6 +4,7 @@ from django.shortcuts import render
 from django.http import request
 from .encrypt import *
 from .decrypt import *
+from secry.settings import *
 import os
 readsize = 1024
 
@@ -11,8 +12,7 @@ readsize = 1024
 def split(file):
     fs = FileSystemStorage()
     filename = fs.save(file.name, file)
-    uploaded_file_url = fs.url(file.name)
-    source ='./' + uploaded_file_url
+    source = os.path.join(MEDIA_ROOT,filename)
     dest = './media/temp'
     chunks = (int)((file.size)/2)
     fs = FileSplit(source, chunks, dest)
