@@ -125,6 +125,7 @@ def upload_file(request):
             filesize = "{:.2f}".format(filesize)
             fileid = my_random_string(8)
             split(myfile)
+            return redirect('view')
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
             print(alnum,data)
@@ -149,7 +150,7 @@ def upload_file(request):
                     binaryData = file.read()
                 data = file_storage.objects.using(storedb[index]).create(store_id=id,content=binaryData)
                 data.save(using=storedb[index])
-                os.remove(file_path)
+                #os.remove(file_path)
                 index = index+1
             mail = request.user.email
             name = request.user.first_name
