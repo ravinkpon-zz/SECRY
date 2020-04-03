@@ -194,7 +194,7 @@ def download_file(request):
                 print(file_path)
                 with open(file_path,'wb') as file:
                     file.write(data.content)
-                    file.close
+                    file.close()
                 with open(file_path, "rb+") as file:
                     file.seek(0, os.SEEK_END)
                     pos = file.tell() - 1
