@@ -127,7 +127,7 @@ def upload_file(request):
             split(myfile)
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
-            print(alnum)
+            print(alnum,data)
             listDir = os.listdir(dest)
             info = file_info.objects.create(file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
             for file in listDir:
@@ -194,7 +194,6 @@ def download_file(request):
                 print(file_path)
                 with open(file_path,'wb') as file:
                     file.write(data.content)
-                    file.close()
                 with open(file_path, "rb+") as file:
                     file.seek(0, os.SEEK_END)
                     pos = file.tell() - 1
