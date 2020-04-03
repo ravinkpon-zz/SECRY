@@ -4,6 +4,7 @@ from cryptography.fernet import Fernet
 from stegano import lsb
 from base64 import b64decode, b64encode
 from random import randint
+from secry.settings import *
 import requests
 import urllib.request
 from django.core.files.storage import FileSystemStorage
@@ -14,10 +15,10 @@ def enc_order():
     return order
 
 def generateKey(id):
-    listDir = os.listdir('./media/keys/')
+    listDir = os.listdir(MEDIA_ROOT+'/keys/')
     for file in listDir:
         if file:
-            file_path = os.remove('./media/keys/'+file)
+            file_path = os.remove(MEDIA_ROOT+'/keys/'+file)
     key = os.urandom(16)
     iv1 = os.urandom(16)
     iv2 = os.urandom(8)
@@ -27,7 +28,7 @@ def generateKey(id):
     data = key_data + '-' + iv1_data + '-' + iv2_data
     ipath = 'https://source.unsplash.com/random/200x200'
     fname = id + '.png'
-    path = os.path.join('./media/keys/',fname)
+    path = os.path.join(MEDIA_ROOT,'keys',fname)
     r = requests.get(ipath, allow_redirects=True)
     open(path, 'wb').write(r.content)
     secret = lsb.hide(path, data)
@@ -38,7 +39,7 @@ def generateKey(id):
 def keygenerate(data,id):
     ipath = 'https://source.unsplash.com/random/200x200'
     fname = id + '.png'
-    path = os.path.join('./media/keys/', fname)
+    path = os.path.join(MEDIA_ROOT+'/keys/', fname)
     r = requests.get(ipath, allow_redirects=True)
     open(path, 'wb').write(r.content)
     secret = lsb.hide(path, data)
@@ -47,7 +48,7 @@ def keygenerate(data,id):
 def FetchKey(keyfile):
     fs = FileSystemStorage()
     fs.save(keyfile.name,keyfile)
-    path = os.path.join('./media/', keyfile.name)
+    path = os.path.join(MEDIA_ROOT, keyfile.name)
     data = lsb.reveal(path)
     iv = data.split('-')
     print(iv)

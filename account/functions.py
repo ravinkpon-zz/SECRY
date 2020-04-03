@@ -13,7 +13,7 @@ def split(file):
     fs = FileSystemStorage()
     filename = fs.save(file.name, file)
     source = os.path.join(MEDIA_ROOT,filename)
-    dest = './media/temp'
+    dest = os.path.join(MEDIA_ROOT, 'temp/')
     chunks = (int)((file.size)/2)
     fs = FileSplit(source, chunks, dest)
     fs.split()
