@@ -128,7 +128,7 @@ def upload_file(request):
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
             print(alnum,data)
-            listDir = os.listdir(dest)
+            listDir = sorted(os.listdir(dest))
             info = file_info.objects.create(file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
             for file in listDir:
                 print(file)
