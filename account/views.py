@@ -142,7 +142,6 @@ def upload_file(request):
                 encypt(alnum[index], key, file_path, iv)
                 with open(file_path, 'a') as f:
                     header = '\n' + (str)(alnum[index])
-                    print(header)
                     f.write(header)
                     f.close()
                 with open(file_path, 'rb') as file:
