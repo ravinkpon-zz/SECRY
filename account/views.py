@@ -147,7 +147,8 @@ def upload_file(request):
                     f.close()
                 with open(file_path, 'rb') as file:
                     binaryData = file.read()
-                data = file_storage.objects.using(storedb[index]).create(store_id=id,content=binaryData)
+                    file.close()
+                data = file_storage(store_id=id,content=binaryData)
                 data.save(using=storedb[index])
                 os.remove(file_path)
                 index = index+1
@@ -194,7 +195,7 @@ def download_file(request):
                 print(file_path)
                 with open(file_path,'wb') as file:
                     file.write(data.content)
-                file.close()
+                    file.close()
                 with open(file_path, "rb+") as file:
                     file.seek(0, os.SEEK_END)
                     pos = file.tell() - 1
@@ -206,7 +207,7 @@ def download_file(request):
                         alnum = int(file.read().decode())
                         file.seek(pos-1, os.SEEK_SET)
                         file.truncate()
-                file.close()
+                    file.close()
                 print(alnum)
                 if(alnum == 1):
                     iv = iv2
