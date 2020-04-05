@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'secrydb',
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'secry-database.c4o6f1o9wuwa.ap-south-1.rds.amazonaws.com',
+        'HOST': config('DB_HOST1'),
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -94,7 +94,7 @@ DATABASES = {
         'NAME': 'secrydb',
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'secry-database.cs4kao1uoahe.ap-southeast-2.rds.amazonaws.com',
+        'HOST': config('DB_HOST2'),
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -105,7 +105,7 @@ DATABASES = {
         'NAME': 'secrydb',
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
-        'HOST': 'secry-database.cyreueplspjw.ap-southeast-1.rds.amazonaws.com',
+        'HOST': config('DB_HOST3'),
         'PORT': '3306',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"

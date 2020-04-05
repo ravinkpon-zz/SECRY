@@ -21,20 +21,20 @@ def split(file):
 
 
 def join(fromdir, tofile):
-    output = open(tofile, 'w')
     parts = os.listdir(fromdir)
     parts.sort()
     for filename in parts:
+        output = open(tofile, 'ab')
         filepath = os.path.join(fromdir, filename)
-        fileobj = open(filepath, 'r')
+        fileobj = open(filepath, 'rb')
         while 1:
             filebytes = fileobj.read(readsize)
             if not filebytes:
                 break
             output.write(filebytes)
+        output.close()
         fileobj.close()
         os.remove(filepath)
-    output.close()
 
 def encypt(alnum, key, file_path, iv):
     if(alnum == 0):

@@ -206,6 +206,7 @@ def download_file(request):
                         alnum = int(file.read().decode())
                         file.seek(pos-1, os.SEEK_SET)
                         file.truncate()
+                        file.truncate()
                     file.close()
                 print(alnum)
                 if(alnum == 1):
