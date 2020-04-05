@@ -33,7 +33,7 @@
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
     <form class="was-validated upload-form" method="POST" enctype="multipart/form-data" action="{% url 'upload_file' %}" >
         {% csrf_token %}
-        <input type="file" name="myfile" required>
+        <input type="file" name="myfile" accept=".txt,.csv" required>
         <p>Drag and drop a file or Click here</p>
         <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
     </form>
