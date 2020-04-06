@@ -188,7 +188,8 @@ def download_file(request):
                 try:
                     data = file_storage.objects.using(storedb[index]).get(store_id=id)
                 except:
-                    pass
+                    messages.info(request, "File not found.")
+                    return redirect('download')
                 fname = file_name.split('.')
                 file_path = dest +fname[0] + '_' + str(index+1) + '.' + fname[1]
                 print(file_path)
