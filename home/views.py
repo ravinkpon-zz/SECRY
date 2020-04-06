@@ -29,6 +29,8 @@ def signin(request):
         password = request.POST.get('password')
         user = auth.authenticate(username=username, password=password)
         if user is not None:
+            request.session['name'] = username
+            request.session['password'] = password
             login(request,user)
             return redirect('dash')
         else:
@@ -40,6 +42,11 @@ def signin(request):
 
 def signout(request):
     if request.method == "POST":
+        try:
+            del request.session['name']
+            del request.session['password']
+        except KeyError :
+            pass
         logout(request)
         #messages.info(request, "Succesfully logged out")
         return HttpResponseRedirect("/")
