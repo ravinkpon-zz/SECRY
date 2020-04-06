@@ -38,7 +38,6 @@ storedb = ['default', 'storage1', 'storage2']
 
 
 def check_email_exists(email):
-
     domain = email.split('@')[1]
     try:
         records = dns.resolver.query(domain, 'MX')
@@ -46,15 +45,13 @@ def check_email_exists(email):
         mxRecord = str(mxRecord)
         # Get local server hostname
         host = socket.gethostname()
-
         # SMTP lib setup (use debug level for full output)
         server = smtplib.SMTP()
         server.set_debuglevel(0)
-
         # SMTP Conversation
         server.connect(mxRecord)
         server.helo(host)
-        server.mail('alinbabu2010@gmail.com')
+        server.mail('alinbabu2010@secry.in')
         code, message = server.rcpt(str(email))
         server.quit()
         # Assume 250 as Success
