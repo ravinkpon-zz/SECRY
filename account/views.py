@@ -76,7 +76,7 @@ def my_random_string(string_length):
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def upload(request):
-    if request.user.is_authenticated and request.session['username'] == request.user.username:
+    if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
         uid = current_user.user_id
@@ -86,7 +86,7 @@ def upload(request):
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def download(request):
-    if request.user.is_authenticated and request.session['username'] == request.user.username:
+    if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
         uid = current_user.user_id
@@ -227,7 +227,7 @@ def download_file(request):
             return redirect('download')
 
 def view(request):
-    if request.user.is_authenticated and request.session['username'] == request.user.username:
+    if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
         uid = current_user.user_id
@@ -242,7 +242,7 @@ def view(request):
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def dash(request):
-    if request.user.is_authenticated and request.session['username'] == request.user.username:
+    if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
         uid = current_user.user_id
@@ -255,7 +255,7 @@ def dash(request):
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def account(request):
-    if request.user.is_authenticated and request.session['username'] == request.user.username:
+    if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         return render(request, 'account.html', {"user": user})
     else:
@@ -265,7 +265,7 @@ def account(request):
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def settings(request):
     global uid
-    if request.user.is_authenticated and request.session['username'] == request.user.username:
+    if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
         uid = current_user.user_id
