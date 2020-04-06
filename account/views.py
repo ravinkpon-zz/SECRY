@@ -298,14 +298,8 @@ def edituser(request):
         email = request.POST['email']
         location = request.POST['location']
         phone = request.POST['phone']
-        try:
-            validate_email(email)
-            email_exists = check_email_exists(email)
-            valid_email = True
-        except:
-            valid_email = False
-        print(valid_email)
-        if valid_email == False or email_exists == False :
+        email_exists = check_email_exists(email)
+        if email_exists == False :
             messages.info(request, "Email does not exists.")
             user = User.objects.get(username=request.user.username)
             return render(request, 'settings.html', {"user": user})
