@@ -366,7 +366,7 @@ def generate(request):
             keygenerate(fkey,id)
             mail = request.user.email
             name = request.user.first_name
-            attach = './media/keys/' + id + '.png'
+            attach = MEDIA_ROOT + '/keys/' + id + '.png'
             email = EmailMessage(
                 'Key of '+id,
                 'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
