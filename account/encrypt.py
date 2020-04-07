@@ -5,7 +5,7 @@ import os
 
 
 def AES(key, file_path,iv):
-    f = open(file_path, "r")
+    f = open(file_path, "r", encoding='utf-8')
     content = f.read()
     f.close()
     content = content.encode()
@@ -25,7 +25,7 @@ def AES(key, file_path,iv):
 
 
 def RC4(key, file_path,iv):
-    f = open(file_path, "r")
+    f = open(file_path, "r",encoding='utf-8')
     content = f.read()
     f.close()
     content = content.encode()
@@ -44,7 +44,7 @@ def RC4(key, file_path,iv):
     f.close()
 
 def DES(key, file_path,iv):
-    f = open(file_path, "r")
+    f = open(file_path, "r",encoding='utf-8')
     content = f.read()
     f.close()
     content = content.encode()

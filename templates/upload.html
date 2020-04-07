@@ -36,14 +36,25 @@
         <input type="file" name="myfile" accept=".txt,.csv" required>
         <p>Drag and drop a file or Click here</p>
         <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-5 text-center"  role="alert" id="myDiv">
+                <strong>{{message}}</strong>
+            </div>
+            {% endfor %}
+        {% endif %}
     </form>
-    {% if messages %}
-    {% for message in messages %}
-    <div class="text-center container">
-        <span class="text-danger text-center mt-1" id="myDiv"><strong>{{message}}</strong></span>
-    </div>
-    {% endfor %}
-    {% endif %}
 </main>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+</script>
+<script>
+    $(document).ready(function () {
+        window.setTimeout("fadeMyDiv();", 3000); //call fade in 3 seconds
+        })
 
+        function fadeMyDiv() {
+            $("#myDiv").fadeOut('slow');
+        }
+</script>
 {% endblock %}

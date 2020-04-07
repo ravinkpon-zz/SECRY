@@ -26,6 +26,8 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.core.mail import EmailMessage
 from secry.settings import BASE_DIR
+import zlib
+from django.urls import reverse_lazy
 
 
 
@@ -106,12 +108,16 @@ def upload_file(request):
         index = 0
         myfile = request.FILES['myfile']
         file_name = myfile.name
+        size = myfile.size
         if file_info.objects.filter(file_name=file_name, user=request.user).exists():
             messages.warning(request, 'File with same name already exists.')
-            return redirect('view')
+            return redirect(reverse_lazy('upload'))
+        elif size > 41943040 :
+            messages.warning(request, 'File excceed upload limit, maimum size 40 MB')
+            return redirect(reverse_lazy('upload'))
         else:
             dest = os.path.join(MEDIA_ROOT,'temp/')
-            size = myfile.size
+           
             try:
                 Dir = os.listdir(dest)
                 for file in Dir:
@@ -162,8 +168,8 @@ def upload_file(request):
             email.send(fail_silently=False)
             os.remove(attach)
             info.save()
-            messages.info(request,"File uploaded successfull.")
-            return redirect('view')
+            messages.success(request,"File uploaded successfull.")
+            return redirect('upload')
 
 def download_file(request):
     global file_name
