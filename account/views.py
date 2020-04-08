@@ -28,6 +28,7 @@ from django.core.mail import EmailMessage
 from secry.settings import BASE_DIR
 import zlib
 from django.urls import reverse_lazy
+from validate_email import validate_email
 
 
 
@@ -301,7 +302,7 @@ def edituser(request):
         email = request.POST['email']
         location = request.POST['location']
         phone = request.POST['phone']
-        email_exists = check_email_exists(email)
+        email_exists = validate_email(email,verify=True)
         if email_exists == False :
             messages.warning(request, "Email does not exists.")
             user = User.objects.get(username=request.user.username)
