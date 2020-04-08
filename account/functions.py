@@ -14,11 +14,17 @@ def split(file):
     filename = fs.save(file.name, file)
     source = os.path.join(MEDIA_ROOT,filename)
     dest = os.path.join(MEDIA_ROOT, 'temp/')
-    chunks = (int)((file.size)/2)
+    chunks = (int)((file.size)/3)
     fs = FileSplit(source, chunks, dest)
     fs.split()
     os.remove(source)
-
+    fname = filename.split('.')
+    dest1 = dest + fname[0] +'_3.' + fname[1]
+    dest2 = dest + fname[0] + '_4.' + fname[1]
+    with open(dest1,'ab') as f:
+        fl = open(dest2,'rb').read()
+        f.write(b'\n'+fl)
+    os.remove(dest2)
 
 def join(fromdir, tofile):
     parts = os.listdir(fromdir)

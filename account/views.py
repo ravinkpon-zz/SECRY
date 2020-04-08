@@ -53,7 +53,7 @@ def check_email_exists(email):
         # SMTP Conversation
         server.connect(mxRecord)
         server.helo(host)
-        server.mail('alinbabu2010@secry.in')
+        server.mail('admin@secrycloud.tech')
         code, message = server.rcpt(str(email))
         server.quit()
         # Assume 250 as Success
@@ -147,10 +147,10 @@ def upload_file(request):
                     header = '\n' + (str)(alnum[index])
                     f.write(header)
                     f.close()
-                with open(file_path, 'rb') as file:
+                with open(file_path,'rb') as file:
                     binaryData = file.read()
                     file.close()
-                data = file_storage(store_id=id,content=binaryData)
+                data = file_storage(store_id=id[:8],content=binaryData)
                 data.save(using=storedb[index])
                 os.remove(file_path)
                 index = index+1
@@ -158,9 +158,9 @@ def upload_file(request):
             name = request.user.first_name
             attach = MEDIA_ROOT + '/keys/' + fileid + '.png'
             email = EmailMessage(
-                'Key of '+fileid,
+                'Key for fileid:'+fileid,
                 'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
-                'alinbabu2010@secry.in',
+                'admin@secrycloud.tech',
                 [mail],
                 headers={'Message-ID': 'foo'},
             )
@@ -168,7 +168,7 @@ def upload_file(request):
             email.send(fail_silently=False)
             os.remove(attach)
             info.save()
-            messages.success(request,"File uploaded successfull.")
+            messages.success(request,"File uploaded successfully.")
             return redirect('upload')
 
 def download_file(request):
@@ -189,7 +189,7 @@ def download_file(request):
             while(index<3):
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
                 try:
-                    data = file_storage.objects.using(storedb[index]).get(store_id=id)
+                    data = file_storage.objects.using(storedb[index]).get(store_id=id[:8])
                 except:
                     messages.info(request, "File not found.")
                     return redirect('download')
@@ -342,7 +342,7 @@ def delete_file(request):
         while(index < 3):
             id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
             try :
-                data = file_storage.objects.using(storedb[index]).get(store_id=id)
+                data = file_storage.objects.using(storedb[index]).get(store_id=id[:8])
                 data.delete()
             except:
                 pass
@@ -366,9 +366,9 @@ def generate(request):
             name = request.user.first_name
             attach = MEDIA_ROOT + '/keys/' + id + '.png'
             email = EmailMessage(
-                'Key of '+id,
+                'Key for fileid:'+id,
                 'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
-                'alinbabu2010@secry.in',
+                'admin@secrycloud.tech',
                 [mail],
                 headers={'Message-ID': 'foo'},
             )
@@ -388,7 +388,7 @@ def delete_account(request):
         while(index < 3):
             id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
             try:
-                data = file_storage.objects.using(storedb[index]).get(store_id=id)
+                data = file_storage.objects.using(storedb[index]).get(store_id=id[:8])
                 data.delete()
             except:
                 pass 

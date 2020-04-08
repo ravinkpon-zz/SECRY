@@ -138,7 +138,7 @@ def contact(request):
         template = get_template('contact_template.txt')
         context = {'contact_name': contact_name,'contact_email': contact_email,'contact_phone':contact_phone,'form_content': form_content}
         content = template.render(context)
-        email = EmailMessage("New contact form submission",content,contact_email,['alinbabu2010@secry.in'],headers={'Reply-To': contact_email})
+        email = EmailMessage("New contact form submission",content,contact_email,['admin@secrycloud.tech'],headers={'Reply-To': contact_email})
         email.send()
         return redirect('home')
 

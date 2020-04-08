@@ -84,7 +84,7 @@ DATABASES = {
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST1'),
-        'PORT': '3306',
+        'PORT': '3307',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
@@ -95,7 +95,7 @@ DATABASES = {
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST2'),
-        'PORT': '3306',
+        'PORT': '3308',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
@@ -106,7 +106,7 @@ DATABASES = {
         'USER': 'admin',
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST3'),
-        'PORT': '3306',
+        'PORT': '3309',
         'OPTIONS': {
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
         }
@@ -162,10 +162,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'home.User'
 
-EMAIL_HOST = 'smtpout.secureserver.net'
+EMAIL_HOST = 'smtp.zoho.in'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_PORT = '465'
-EMAIL_HOST_USER = 'alinbabu2010@secry.in'
+EMAIL_HOST_USER = 'admin@secrycloud.tech'
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
+
+SECURE_HSTS_SECONDS = True
+
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
+SECURE_REFERRER_POLICY = True
