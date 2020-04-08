@@ -53,7 +53,7 @@ def check_email_exists(email):
         # SMTP Conversation
         server.connect(mxRecord)
         server.helo(host)
-        server.mail('admin@secrycloud.tech')
+        server.mail('alinbabu2010@gmail.com')
         code, message = server.rcpt(str(email))
         server.quit()
         # Assume 250 as Success
@@ -229,7 +229,7 @@ def download_file(request):
                 return response
             raise Http404
         else:
-            messages.info(request, "Incorrect key uploaded.")
+            messages.warning(request, "Incorrect key uploaded.")
             return redirect('download')
 
 def view(request):
@@ -289,7 +289,7 @@ def changepass(request):
         user = User.objects.get(email=emailid)
         user.set_password(password1)
         user.save()
-        messages.info(request, "Your passsword has been changed.")
+        messages.success(request, "Your passsword has been changed.")
         return redirect('settings')
 
 
@@ -303,7 +303,7 @@ def edituser(request):
         phone = request.POST['phone']
         email_exists = check_email_exists(email)
         if email_exists == False :
-            messages.info(request, "Email does not exists.")
+            messages.warning(request, "Email does not exists.")
             user = User.objects.get(username=request.user.username)
             return render(request, 'settings.html', {"user": user})
         else:
@@ -319,7 +319,7 @@ def edituser(request):
             user.phone = phone
             user.save()
             user = User.objects.get(username=request.user.username)
-            messages.info(request, "Your changes are saved.")
+            messages.success(request, "Your changes are saved.")
             return render(request, 'settings.html', {"user": user})
 
 def delete_file(request):
@@ -349,7 +349,7 @@ def delete_file(request):
             index = index+1 
         files = file_info.objects.get(file_id=fileid)
         files.delete()
-        messages.info(request, "File deleted sucessfully.")
+        messages.success(request, "File deleted sucessfully.")
         return redirect('view')
 
 def generate(request):
@@ -375,7 +375,7 @@ def generate(request):
             email.attach_file(attach)
             email.send(fail_silently=False)
             os.remove(attach)
-            messages.info(request, "Key send to the email")
+            messages.success(request, "Key send to the email")
             return redirect('view')
 
 def delete_account(request):

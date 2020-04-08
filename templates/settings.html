@@ -95,7 +95,7 @@
                     </div>
                     {% endif %}
                     {% for message in messages %}
-                    <span class="text-info ml-2" id="myDiv"><strong> {{message}} </strong></span>
+                    <span class="text-{{message.tags}} ml-2" id="myDiv"><strong> {{message}} </strong></span>
                     {% endfor %}
                 </div>
                 <div class="col-md-5 justify-content-around mt-2">
@@ -158,6 +158,25 @@
             </div>
         </main>
     </div>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+<script>
+    $(document).ready(function () {
+    window.setTimeout("fadeMyDiv();", 3000); //call fade in 3 seconds
+    })
 
+    function fadeMyDiv() {
+        $("#myDiv").fadeOut('slow');
+    }
+    
+    $('.table tbody').on('click', '.btn', function () {
+        var currow = $(this).closest('tr');
+        var fid = currow.find('td:eq(0)').text();
+        var fname = currow.find('td:eq(1)').text();
+        $('form #fileid').val(fid);
+        $('form #filename').val(fname);
+    })
+</script>
 
 {% endblock %}

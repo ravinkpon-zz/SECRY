@@ -70,13 +70,13 @@ def register(request):
                 messages.info(request, 'Username already exists.')
                 return redirect('register')
             elif User.objects.filter(email=email).exists():
-                messages.info(request, "Email already exists.")
+                messages.warning(request, "Email already exists.")
                 return redirect('register')
             else:
                 user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,
                                                 email=email, password=password1, location=location, phone=phone)
                 user.save()
-                messages.info(request, "User creation successfull.")
+                messages.success(request, "User creation successfull.")
                 return redirect('signin')
 
     else:
@@ -125,7 +125,7 @@ def change(request):
             user = User.objects.get(email=emailid)
             user.set_password(password1)
             user.save()
-            messages.info(request, "Your passsword has been changed.")
+            messages.success(request, "Your passsword has been changed.")
             return render(request, 'signin.html')
 
 
