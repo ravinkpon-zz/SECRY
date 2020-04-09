@@ -1,7 +1,6 @@
 from django.views.decorators.cache import cache_control
 from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.models import User, auth
-from django.core.validators import validate_email
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
@@ -17,8 +16,6 @@ import os
 import random
 import sys
 import shutil
-import dns.resolver
-import dns.exception
 import logging
 import socket
 import smtplib,hashlib
@@ -28,43 +25,11 @@ from django.core.mail import EmailMessage
 from secry.settings import BASE_DIR
 import zlib
 from django.urls import reverse_lazy
-from validate_email import validate_email
-
-
-
-logger = logging.getLogger(__name__)
 
 file_name = ""
 User = get_user_model()
 uid = " "
 storedb = ['default', 'storage1', 'storage2']
-
-
-def check_email_exists(email):
-    domain = email.split('@')[1]
-    try:
-        records = dns.resolver.query(domain, 'MX')
-        mxRecord = records[0].exchange
-        mxRecord = str(mxRecord)
-        # Get local server hostname
-        host = socket.gethostname()
-        # SMTP lib setup (use debug level for full output)
-        server = smtplib.SMTP()
-        server.set_debuglevel(0)
-        # SMTP Conversation
-        server.connect(mxRecord)
-        server.helo(host)
-        server.mail('alinbabu2010@gmail.com')
-        code, message = server.rcpt(str(email))
-        server.quit()
-        # Assume 250 as Success
-        if code == 250:
-            return True
-        else:
-            return False
-    except:
-        pass
-
 
 if sys.platform == 'win32':
     import asyncio
@@ -299,29 +264,21 @@ def edituser(request):
         first_name = request.POST['firstname']
         last_name = request.POST['lastname']
         username = request.POST['username']
-        email = request.POST['email']
         location = request.POST['location']
         phone = request.POST['phone']
-        email_exists = validate_email(email,verify=True)
-        if email_exists == False :
-            messages.warning(request, "Email does not exists.")
-            user = User.objects.get(username=request.user.username)
-            return render(request, 'settings.html', {"user": user})
-        else:
-            user = User.objects.get(username=request.user.username)
-            current_user = request.user
-            uid = current_user.user_id
-            user = User.objects.get(user_id=uid)
-            user.first_name = first_name
-            user.last_name = last_name
-            user.username = username
-            user.email = email
-            user.location = location
-            user.phone = phone
-            user.save()
-            user = User.objects.get(username=request.user.username)
-            messages.success(request, "Your changes are saved.")
-            return render(request, 'settings.html', {"user": user})
+        user = User.objects.get(username=request.user.username)
+        current_user = request.user
+        uid = current_user.user_id
+        user = User.objects.get(user_id=uid)
+        user.first_name = first_name
+        user.last_name = last_name
+        user.username = username
+        user.location = location
+        user.phone = phone
+        user.save()
+        user = User.objects.get(username=request.user.username)
+        messages.success(request, "Your changes are saved.")
+        return render(request, 'settings.html', {"user": user})
 
 def delete_file(request):
     global file_name

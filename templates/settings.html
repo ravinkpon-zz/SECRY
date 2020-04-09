@@ -150,7 +150,7 @@
                                 </p>
                             </div>
                             <div class="text-center">
-                                <a href="{% url 'delete_account' %}"  class="btn btn-danger btn-round">Delete Account</a>
+                                <a href="#myModal" class="trigger-btn" data-toggle="modal" class="btn btn-danger btn-round">Delete Account</a>
                             </div>
                         </div>
                     </div>
@@ -158,6 +158,24 @@
             </div>
         </main>
     </div>
+    <!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+	<div class="modal-dialog modal-confirm">
+		<div class="modal-content">
+			<div class="modal-header">			
+				<h4 class="modal-title">Confirmation</h4>	
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<p>Are you sure you want to delete your account? This action cannot be undone and you will be unable to recover any data.</p>
+			</div>
+			<div class="modal-footer">
+                <a class="btn btn-info" data-dismiss="modal">Cancel</a>
+				<a href="{% url 'delete_account' %}" class="btn btn-danger">Yes, delete it!</a>
+			</div>
+		</div>
+	</div>
+</div>     
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
     integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
     </script>

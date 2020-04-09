@@ -2,23 +2,18 @@ from django.shortcuts import redirect, render
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.contrib.auth import get_user_model, update_session_auth_hash
-from django.core.validators import validate_email
-import dns.resolver
-import dns.exception
-import logging
-from django.http import request
-import socket
-import smtplib
+from django.http import HttpResponse, request
 from django.contrib.auth import logout,login
 from django.http.response import HttpResponseRedirect
 from account.views import my_random_string
 from django.template.loader import get_template
 from django.core.mail import EmailMessage
-
-logger = logging.getLogger(__name__)
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from .tokens import account_activation_token
 
 User = get_user_model()
-
 
 def home(request):
     return render(request, 'index.html')
@@ -56,61 +51,45 @@ def register(request):
         location = request.POST['location']
         phone = request.POST['phone']
         uid = my_random_string(10)
-        try:
-            validate_email(email)
-            email_exists = check_email_exists(email)
-            valid_email = True
-        except:
-            valid_email = False
-        if((valid_email == False) or (email_exists == False)):
-            messages.info(request, "Enter a valid email address.")
+        if User.objects.filter(username=username).exists():
+            messages.warning(request, 'Username already exists.')
+            return redirect('register')
+        elif User.objects.filter(email=email).exists():
+            messages.warning(request, "Email already exists.")
             return redirect('register')
         else:
-            if User.objects.filter(username=username).exists():
-                messages.info(request, 'Username already exists.')
-                return redirect('register')
-            elif User.objects.filter(email=email).exists():
-                messages.warning(request, "Email already exists.")
-                return redirect('register')
-            else:
-                user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,
+            user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,
                                                 email=email, password=password1, location=location, phone=phone)
-                user.save()
-                messages.success(request, "User creation successfull.")
-                return redirect('signin')
-
+            user.is_active = False
+            user.save()
+            current_site = get_current_site(request)
+            mail_subject = 'Activate your SECRY account.'
+            template = get_template('acc_active_email.txt')
+            context = {'user': user,'domain': current_site.domain,'uid': urlsafe_base64_encode(force_bytes(user.user_id)),'token': account_activation_token.make_token(user)}
+            text_content = template.render(context)
+            email = EmailMessage(mail_subject, text_content, 'admin@secrycloud.tech', [email])
+            email.send(fail_silently=False)
+            messages.info(request, 'Please confirm your email address to complete the registration')
+            return render(request, 'response.html')
+            
     else:
         return render(request, 'signup.html')
 
 
-def check_email_exists(email):
-
-    domain = email.split('@')[1]
+def activate(request, uidb64, token):
     try:
-        records = dns.resolver.query(domain, 'MX')
-        mxRecord = records[0].exchange
-        mxRecord = str(mxRecord)
-        # Get local server hostname
-        host = socket.gethostname()
-
-        # SMTP lib setup (use debug level for full output)
-        server = smtplib.SMTP()
-        server.set_debuglevel(0)
-
-        # SMTP Conversation
-        server.connect(mxRecord)
-        server.helo(host)
-        server.mail('alinbabu2010@gmail.com')
-        code, message = server.rcpt(str(email))
-        server.quit()
-        print(code)
-        # Assume 250 as Success
-        if code == 250:
-            return True
-        else:
-            return False
-    except:
-        pass
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(user_id=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if user is not None and account_activation_token.check_token(user, token):
+        user.is_active = True
+        user.save()
+        messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
+        return render(request, 'response.html')
+    else:
+        messages.warning(request, 'Activation link is invalid!')
+        return render(request, 'response.html')
 
 
 def change(request):
