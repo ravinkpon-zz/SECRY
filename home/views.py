@@ -65,7 +65,7 @@ def register(request):
             current_site = get_current_site(request)
             mail_subject = 'Activate your SECRY account.'
             template = get_template('acc_active_email.txt')
-            context = {'user': user,'domain': current_site.domain,'uid': urlsafe_base64_encode(force_bytes(user.user_id)),'token': account_activation_token.make_token(user)}
+            context = {'user': user,'domain': current_site.domain,'uid': urlsafe_base64_encode(force_bytes(uid)),'token': account_activation_token.make_token(user)}
             text_content = template.render(context)
             email = EmailMessage(mail_subject, text_content, 'admin@secrycloud.tech', [email])
             email.send(fail_silently=False)
@@ -82,7 +82,7 @@ def activate(request, uidb64, token):
         user = User.objects.get(user_id=uid)
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
-    if user is not None and account_activation_token.check_token(user, token):
+    if account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
         messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
