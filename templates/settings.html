@@ -68,13 +68,6 @@
                                     <div class="invalid-tooltip">Please enter a valid name.</div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="email"><i class="zmdi zmdi-email"></i> Email</label>
-                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email"
-                                        pattern="[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
-                                        required value="{{ user.email }}" />
-                                    <div class="invalid-tooltip">Please enter a valid email..</div>
-                                </div>
-                                <div class="form-group">
                                     <label for="location"><i class="zmdi zmdi-my-location"></i> Location</label>
                                     <input type="text" class="form-control" name="location" id="locate"
                                         placeholder="Place" required value="{{ user.location }}" />
@@ -90,13 +83,13 @@
                                     <input type="submit" class="btn btn-outline-info form-submit" name="update-profile"
                                         value="Update Profile" />
                                 </div>
-                            </form>
+                            </form> 
+                            {% for message in messages %}
+                            <span class="text-{{message.tags}} ml-2" id="myDiv"><strong> {{message}} </strong></span>
+                            {% endfor %}
                         </div>
                     </div>
                     {% endif %}
-                    {% for message in messages %}
-                    <span class="text-{{message.tags}} ml-2" id="myDiv"><strong> {{message}} </strong></span>
-                    {% endfor %}
                 </div>
                 <div class="col-md-5 justify-content-around mt-2">
                     <div class="card text-primary bg-light">
@@ -150,7 +143,7 @@
                                 </p>
                             </div>
                             <div class="text-center">
-                                <a href="#myModal" class="trigger-btn" data-toggle="modal" class="btn btn-danger btn-round">Delete Account</a>
+                                <a href="#myModal" data-toggle="modal" class="trigger-btnbtn btn-danger btn-round">Delete Account</a>
                             </div>
                         </div>
                     </div>
@@ -176,25 +169,4 @@
 		</div>
 	</div>
 </div>     
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
-    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
-    </script>
-<script>
-    $(document).ready(function () {
-    window.setTimeout("fadeMyDiv();", 3000); //call fade in 3 seconds
-    })
-
-    function fadeMyDiv() {
-        $("#myDiv").fadeOut('slow');
-    }
-    
-    $('.table tbody').on('click', '.btn', function () {
-        var currow = $(this).closest('tr');
-        var fid = currow.find('td:eq(0)').text();
-        var fname = currow.find('td:eq(1)').text();
-        $('form #fileid').val(fid);
-        $('form #filename').val(fname);
-    })
-</script>
-
 {% endblock %}

@@ -1,11 +1,3 @@
-$(document).ready(function () {
-    window.setTimeout("fadeMyDiv();", 3000); //call fade in 3 seconds
-})
-
-function fadeMyDiv() {
-    $("#myDiv").fadeOut('slow');
-}
-
 window.onload = function () {
     var txtPassword = document.getElementById("pass");
     var txtConfirmPassword = document.getElementById("re_pass");

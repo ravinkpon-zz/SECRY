@@ -8,3 +8,19 @@ $(document).ready(function () {
         $('.upload-form p').text(this.files.length + " file(s) selected");
     });
 });
+
+$(document).ready(function () {
+    window.setTimeout("fadeMyDiv();", 3000); //call fade in 3 seconds
+})
+
+function fadeMyDiv() {
+    $("#myDiv").fadeOut('slow');
+}
+
+$('.table tbody').on('click', '.btn', function () {
+     var currow = $(this).closest('tr');
+     var fid = currow.find('td:eq(0)').text();
+     var fname = currow.find('td:eq(1)').text();
+     $('form #fileid').val(fid);
+     $('form #filename').val(fname);
+})
