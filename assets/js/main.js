@@ -24,3 +24,7 @@ $('.table tbody').on('click', '.btn', function () {
      $('form #fileid').val(fid);
      $('form #filename').val(fname);
 })
+
+$('.upload-form').submit((e) => {
+    $('#submit').html('<span class="spinner-grow align-middle mr-1" style="width: 1.5em; height:1.5em;" role="status"></span> Uploading...');
+});

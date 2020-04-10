@@ -35,8 +35,8 @@
         {% csrf_token %}
         <input type="file" name="myfile" accept=".txt,.csv" required>
         <p>Drag and drop a file or Click here</p>
-        <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
-        <div class="text-bold text-center mt-0"><small>Maximum size 40 MB</small></div>
+        <button type="submit" class="btn btn-success btn-lg btn-block align-items-center" id='submit'>Upload</button>
+        <div class="text-center mt-0"><small>Maximum size 40 MB. Only text files.</small></div>
         {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }} mt-5 text-center"  role="alert" id="myDiv">
@@ -46,5 +46,4 @@
         {% endif %}
     </form>
 </main>
-</script>
 {% endblock %}
