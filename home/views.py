@@ -35,7 +35,6 @@ def signin(request):
 
 def signout(request):
     if request.method == "POST":
-        request.user.is_active = False
         logout(request)
         return HttpResponseRedirect("/")
 
