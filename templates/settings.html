@@ -84,13 +84,13 @@
                                         value="Update Profile" />
                                 </div>
                             </form> 
-                            {% for message in messages %}
-                            <span class="text-{{message.tags}} ml-2" id="myDiv"><strong> {{message}} </strong></span>
-                            {% endfor %}
                         </div>
                     </div>
                     {% endif %}
                 </div>
+                {% for message in messages %}
+                    <span class="text-{{message.tags}} ml-2 text-center" id="myDiv"><strong> {{message}} </strong></span>
+                {% endfor %}
                 <div class="col-md-5 justify-content-around mt-2">
                     <div class="card text-primary bg-light">
                         <div class="card-header">
