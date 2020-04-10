@@ -34,7 +34,8 @@
     <form class="was-validated upload-form" method="POST" enctype="multipart/form-data" action="{% url 'upload_file' %}" >
         {% csrf_token %}
         <input type="file" name="myfile" accept=".txt,.csv" required>
-        <p>Drag and drop a file or Click here<br><small>Maximum size 40 MB</small></p>
+        <p>Drag and drop a file or Click here</p>
+        <p><small>Maximum size 40 MB</small></p>
         <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
         {% if messages %}
             {% for message in messages %}
