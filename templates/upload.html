@@ -36,7 +36,7 @@
         <input type="file" name="myfile" accept=".txt,.csv" required>
         <p>Drag and drop a file or Click here</p>
         <button type="submit" class="btn btn-success btn-lg btn-block">Upload</button>
-        <p><small>Maximum size 40 MB</small></p>
+        <p><small class="text-bold">Maximum size 40 MB</small></p>
         {% if messages %}
             {% for message in messages %}
             <div class="alert alert-{{ message.tags }} mt-5 text-center"  role="alert" id="myDiv">

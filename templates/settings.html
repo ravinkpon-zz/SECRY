@@ -87,10 +87,10 @@
                         </div>
                     </div>
                     {% endif %}
-                </div>
-                {% for message in messages %}
+                    {% for message in messages %}
                     <span class="text-{{message.tags}} ml-2 text-center" id="myDiv"><strong> {{message}} </strong></span>
-                {% endfor %}
+                    {% endfor %}
+                </div>
                 <div class="col-md-5 justify-content-around mt-2">
                     <div class="card text-primary bg-light">
                         <div class="card-header">
