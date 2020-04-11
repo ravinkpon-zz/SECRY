@@ -26,5 +26,5 @@ $('.table tbody').on('click', '.btn', function () {
 })
 
 $('.upload-form').submit((e) => {
-    $('#submit').html('<span class="spinner-grow align-middle mr-1" style="width: 1.5em; height:1.5em;" role="status"></span> Uploading...');
+    $('#submit').html('<span class="spinner">Uploading<span class="bounce1"></span><span class="bounce2"></span><span class = "bounce3"></span></span>');
 });
