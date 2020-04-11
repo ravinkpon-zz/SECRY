@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 import os
 
 
-def AES(key, file_path,iv):
+def AES(key, file_path, iv):                        # AES encryption function
     f = open(file_path, "r", encoding='utf-8')
     content = f.read()
     f.close()
@@ -24,7 +24,7 @@ def AES(key, file_path,iv):
     f.close()
 
 
-def RC4(key, file_path,iv):
+def RC4(key, file_path, iv):                        # RC4 encryption function
     f = open(file_path, "r",encoding='utf-8')
     content = f.read()
     f.close()
@@ -43,7 +43,8 @@ def RC4(key, file_path,iv):
     f.write(cont)
     f.close()
 
-def DES(key, file_path,iv):
+
+def DES(key, file_path, iv):                        # DES encryption function
     f = open(file_path, "r",encoding='utf-8')
     content = f.read()
     f.close()

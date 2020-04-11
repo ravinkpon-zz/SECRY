@@ -1,3 +1,5 @@
+# Activation token genration class
+
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 import six
 

@@ -36,14 +36,14 @@ if sys.platform == 'win32':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
-def my_random_string(string_length):
+def my_random_string(string_length):    #Random string generation for making id
     random = str(uuid4()) 
     random = random.upper() 
     random = random.replace("-", "") 
     return random[0:string_length] 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def upload(request):
+def upload(request):                                                #Upload page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
@@ -53,7 +53,7 @@ def upload(request):
         return redirect('signin')
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def download(request):
+def download(request):                                              # Download page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
@@ -66,7 +66,8 @@ def download(request):
     else:
         return redirect('signin')
 
-def upload_file(request):
+
+def upload_file(request):                           # Upload_file function - process the uploading of file
     global storedb
     global uid
     global file_name
@@ -96,11 +97,9 @@ def upload_file(request):
             split(myfile)
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
-            print(alnum,data)
             listDir = sorted(os.listdir(dest))
             info = file_info.objects.create(file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
             for file in listDir:
-                print(file)
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
                 file_path = os.path.join(dest,file)
                 file_path = shutil.move(file_path,MEDIA_ROOT)
@@ -137,7 +136,8 @@ def upload_file(request):
             messages.success(request,"File uploaded successfully.")
             return redirect('upload')
 
-def download_file(request):
+
+def download_file(request):                     # Download_file function to process downloading of the file
     global file_name
     global storedb
     if request.method == 'POST' and request.FILES['keyfile']:
@@ -161,7 +161,6 @@ def download_file(request):
                     return redirect('download')
                 fname = file_name.split('.')
                 file_path = dest +fname[0] + '_' + str(index+1) + '.' + fname[1]
-                print(file_path)
                 with open(file_path,'wb') as file:
                     file.write(data.content)
                     file.close()
@@ -178,7 +177,6 @@ def download_file(request):
                         file.truncate()
                         file.truncate()
                     file.close()
-                print(alnum)
                 if(alnum == 1):
                     iv = iv2
                 else:
@@ -198,7 +196,7 @@ def download_file(request):
             messages.warning(request, "Incorrect key uploaded.")
             return redirect('download')
 
-def view(request):
+def view(request):                                                  #View uploaded files page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
@@ -213,20 +211,19 @@ def view(request):
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def dash(request):
+def dash(request):                                              #Dahboard page of user account request
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
         uid = current_user.user_id
         file = file_info.objects.filter(user_id=uid).count()
-        print(user)
         return render(request, 'profile.html', {"user": user, 'count':file})
     else:
         return redirect('signin')
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def account(request):
+def account(request):                                               #Account pages request for user details
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         return render(request, 'account.html', {"user": user})
@@ -235,19 +232,18 @@ def account(request):
 
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def settings(request):
+def settings(request):                                              #Account settings page request
     global uid
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
         uid = current_user.user_id
-        print(uid)
         return render(request, 'settings.html', {'user': user})
     else:
         return redirect('signin')
 
 
-def changepass(request):
+def changepass(request):                                           #User account password change
     if(request.method == "POST"):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
@@ -259,7 +255,7 @@ def changepass(request):
         return redirect('settings')
 
 
-def edituser(request):
+def edituser(request):                                          #User info change process request
     if(request.method == "POST"):
         first_name = request.POST['firstname']
         last_name = request.POST['lastname']
@@ -280,14 +276,13 @@ def edituser(request):
         messages.success(request, "Your changes are saved.")
         return render(request, 'settings.html', {"user": user})
 
-def delete_file(request):
+def delete_file(request):                               #Delete_file from server request
     global file_name
     global storedb
     if request.method == 'POST' and request.FILES['keyfile']:
         keyfile = request.FILES['keyfile']
         fileid = request.POST['fileid']
         file_name = request.POST['filename']
-        print(file_name, fileid)
         key,iv1,iv2 = FetchKey(keyfile)
         try:
             info = file_info.objects.get(file_id=fileid, file_key=key)
@@ -310,7 +305,7 @@ def delete_file(request):
         messages.success(request, "File deleted sucessfully.")
         return redirect('view')
 
-def generate(request):
+def generate(request):                      #Generate the key file for the user.
     if(request.method=='POST'):
         id = request.POST['fileid']
         try:
@@ -336,7 +331,7 @@ def generate(request):
             messages.success(request, "Key send to the email")
             return redirect('view')
 
-def delete_account(request):
+def delete_account(request):                #Delete a user account and files request.
     user = User.objects.get(username=request.user.username)
     current_user = request.user.user_id
     files = file_info.objects.filter(user_id=current_user)

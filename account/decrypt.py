@@ -4,7 +4,7 @@ from cryptography.fernet import Fernet
 import os
 
 
-def DAES(key, file_path,iv):
+def DAES(key, file_path,iv):             # AES decryption function
     f = open(file_path, "rb")
     content = f.read()
     f.close()
@@ -16,7 +16,8 @@ def DAES(key, file_path,iv):
     f.write(content)
     f.close()
 
-def DRC4(key, file_path,iv):
+
+def DRC4(key, file_path, iv):           # RC4 decryption function
     f = open(file_path, "rb")
     content = f.read()
     f.close()
@@ -29,7 +30,7 @@ def DRC4(key, file_path,iv):
     f.close()
 
 
-def DDES(key, file_path,iv):
+def DDES(key, file_path, iv):           # DES decryption function
     f = open(file_path, "rb")
     content = f.read()
     f.close()

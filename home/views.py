@@ -15,10 +15,10 @@ from .tokens import account_activation_token
 
 User = get_user_model()
 
-def home(request):
+def home(request):              # Index page request function
     return render(request, 'index.html')
 
-def signin(request):
+def signin(request):            #  Sigin request 
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -33,13 +33,13 @@ def signin(request):
     else:
         return render(request, 'signin.html')
 
-def signout(request):
+def signout(request):               #Signout request
     if request.method == "POST":
         logout(request)
         return HttpResponseRedirect("/")
 
 
-def register(request):
+def register(request):                      #User registration request and processing
     if request.method == 'POST':
         first_name = request.POST['firstname']
         last_name = request.POST['lastname']
@@ -75,7 +75,7 @@ def register(request):
         return render(request, 'signup.html')
 
 
-def activate(request, uidb64, token):
+def activate(request, uidb64, token):               #Email activation function
     try:
         uid = force_text(urlsafe_base64_decode(uidb64))
         user = User.objects.get(user_id=uid)
@@ -91,7 +91,7 @@ def activate(request, uidb64, token):
         return render(request, 'response.html')
 
 
-def change(request):
+def change(request):                        #Account password changing
     if(request.method == "POST"):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
@@ -107,7 +107,7 @@ def change(request):
             return render(request, 'signin.html')
 
 
-def contact(request):
+def contact(request):                   #Contact form processing
     if request.method == 'POST':
         contact_name = request.POST['txtName']
         contact_email = request.POST['txtEmail']
@@ -121,11 +121,11 @@ def contact(request):
         return redirect('home')
 
 
-def error_404(request,exception):
+def error_404(request,exception):               #404 error page request
         data = {}
         return render(request, '404.html', data)
 
 
-def error_500(request):
+def error_500(request):                        #500 error page request
     return render(request, '500.html')
 

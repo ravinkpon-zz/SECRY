@@ -10,11 +10,11 @@ import urllib.request
 from django.core.files.storage import FileSystemStorage
 
 
-def enc_order():
+def enc_order():        #Create crypto algorithm ordering
     order = random.sample(range(0, 3), 3)
     return order
 
-def generateKey(id):
+def generateKey(id):                    #Generate the key file
     listDir = os.listdir(MEDIA_ROOT+'/keys/')
     for file in listDir:
         if file:
@@ -36,7 +36,7 @@ def generateKey(id):
     return key, iv1, iv2,data
 
 
-def keygenerate(data,id):
+def keygenerate(data, id):                              #Regenerate the key file on user request
     ipath = 'https://source.unsplash.com/random/200x200'
     fname = id + '.png'
     path = os.path.join(MEDIA_ROOT+'/keys/', fname)
@@ -45,13 +45,12 @@ def keygenerate(data,id):
     secret = lsb.hide(path, data)
     secret.save(path)
 
-def FetchKey(keyfile):
+def FetchKey(keyfile):                  #Fetch key file from the file.
     fs = FileSystemStorage()
     fs.save(keyfile.name,keyfile)
     path = os.path.join(MEDIA_ROOT, keyfile.name)
     data = lsb.reveal(path)
     iv = data.split('-')
-    print(iv)
     key = b64decode(iv[0].encode('utf-8'))
     iv1 = b64decode(iv[1].encode('utf-8'))
     iv2 = b64decode(iv[2].encode('utf-8'))

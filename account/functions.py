@@ -9,7 +9,7 @@ import os
 readsize = 1024
 
 
-def split(file):
+def split(file):                            # File split function 
     fs = FileSystemStorage()
     filename = fs.save(file.name, file)
     source = os.path.join(MEDIA_ROOT,filename)
@@ -26,7 +26,7 @@ def split(file):
         f.write(b'\n'+fl)
     os.remove(dest2)
 
-def join(fromdir, tofile):
+def join(fromdir, tofile):              # File joining function
     parts = os.listdir(fromdir)
     parts.sort()
     for filename in parts:
@@ -42,7 +42,7 @@ def join(fromdir, tofile):
         fileobj.close()
         os.remove(filepath)
 
-def encypt(alnum, key, file_path, iv):
+def encypt(alnum, key, file_path, iv):          # Function to call encyption on generated order
     if(alnum == 0):
         AES(key, file_path, iv)
     elif(alnum == 1):
@@ -50,7 +50,8 @@ def encypt(alnum, key, file_path, iv):
     elif(alnum == 2):
         RC4(key, file_path, iv)
 
-def decrypt(alnum, key, file_path, iv):
+
+def decrypt(alnum, key, file_path, iv):          # Function to call decyption on generated order
     if(alnum == 0):
         DAES(key, file_path, iv)
     elif(alnum == 1):
