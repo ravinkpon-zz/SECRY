@@ -1,3 +1,9 @@
+$(window).load(function () {
+    // Animate loader off screen
+    $(".loader").fadeOut("slow");;
+});
+
+
 $(window).scroll(function () {
         $('nav').toggleClass('scrolled',$(this).scrollTop()>200);
     });
