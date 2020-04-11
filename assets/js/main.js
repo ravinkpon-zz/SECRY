@@ -24,7 +24,3 @@ $('.table tbody').on('click', '.btn', function () {
      $('form #fileid').val(fid);
      $('form #filename').val(fname);
 })
-
-$('.upload-form').submit((e) => {
-    $('#submit').html('<span class="spinner">Uploading<span class="bounce1"></span><span class="bounce2"></span><span class = "bounce3"></span></span>');
-});

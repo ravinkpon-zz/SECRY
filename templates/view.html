@@ -50,7 +50,7 @@
                         <td>{{file.file_name}}</td>
                         <td>{{file.file_size}}</td>
                         <td> 
-                            <form method="POST" class="inline-group" enctype="multipart/form-data" action="{% url 'generate' %}">
+                            <form method="POST" class="inline-group" enctype="multipart/form-data" action="{% url 'generate' %}" onsubmit="$('#cover-spin').show(0)">
                                 {% csrf_token %}
                                 <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
                                 <input type="hidden" name="fileid" id="fileid" value="">
@@ -101,16 +101,19 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body text-center upload-form bg-dark">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'delete_file' %}">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'delete_file' %}" onsubmit="$('#cover-spin').show(0)">
                     {% csrf_token %}
                     <input type="file" name="keyfile" accept="image/*" required>
                     <input type="hidden" name="fileid" id="fileid" value="">
                     <input type="hidden" name="filename" id="filename" value="">
                     <p>Upload your file key here.</p>
-                    <button type="submit" class="btn btn-danger btn-block">Delete File</button>
+                    <button type="submit" class="btn btn-danger btn-block" id="submit">Delete File</button>
                 </form>
             </div>
         </div>
     </div>
+</div>
+<div id="cover-spin">
+    <div class="lds-ripple"><div></div><div></div></div>
 </div>
 {% endblock %}

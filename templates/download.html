@@ -72,8 +72,8 @@
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body text-center upload-form bg-dark">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'download_file' %}">
+            <div class="modal-body text-center upload-form">
+                <form method="POST" onsubmit="$('#cover-spin').show(0)" enctype="multipart/form-data" action="{% url 'download_file' %}">
                     {% csrf_token %}
                     <input type="file" name="keyfile" accept="image/*" required>
                     <input type="hidden" name="fileid" id="fileid" value="">
@@ -84,5 +84,8 @@
             </div>
         </div>
     </div>
+</div>
+<div id="cover-spin">
+    <div class="lds-ripple"><div></div><div></div></div>
 </div>
 {% endblock %}

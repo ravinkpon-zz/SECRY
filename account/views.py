@@ -190,7 +190,7 @@ def download_file(request):                     # Download_file function to proc
                     response = HttpResponse(fh.read(), content_type="text/plain")
                     response['Content-Disposition'] = 'attachment; filename=' + file_name
                 os.remove(todir)
-                return response
+                return response,redirect('download')
             raise Http404
         else:
             messages.warning(request, "Incorrect key uploaded.")
