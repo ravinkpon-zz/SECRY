@@ -30,4 +30,4 @@ window.onload = function () {
             }, false);
         });
     }, false);
-})();
+});
