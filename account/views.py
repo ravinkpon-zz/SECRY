@@ -25,6 +25,7 @@ from django.core.mail import EmailMessage
 from secry.settings import BASE_DIR
 import zlib
 from django.urls import reverse_lazy
+from django.http.response import HttpResponseRedirect
 
 file_name = ""
 User = get_user_model()
@@ -189,8 +190,8 @@ def download_file(request):                     # Download_file function to proc
                 with open(todir, 'rb') as fh:
                     response = HttpResponse(fh.read(), content_type="text/plain")
                     response['Content-Disposition'] = 'attachment; filename=' + file_name
-                os.remove(todir)
-                return response,redirect('download')
+                os.remove(todir) 
+                return response
             raise Http404
         else:
             messages.warning(request, "Incorrect key uploaded.")

@@ -31,3 +31,7 @@ window.onload = function () {
         });
     }, false);
 })();
+
+$('form').submit(function(){
+    getElementsByClassName("btn").submit.innerHTML = $('#spinner').show(0);
+})

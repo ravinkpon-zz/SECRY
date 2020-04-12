@@ -50,11 +50,11 @@
                         <td>{{file.file_name}}</td>
                         <td>{{file.file_size}}</td>
                         <td> 
-                            <form method="POST" class="inline-group" enctype="multipart/form-data" action="{% url 'generate' %}" onsubmit="$('#cover-spin').show(0)">
+                            <form method="POST" class="inline-group" enctype="multipart/form-data" action="{% url 'generate' %}">
                                 {% csrf_token %}
-                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal">Delete</button>
+                                <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#exampleModal" title="Delete file"><i class="fa fa-trash"></i> Delete</button>
                                 <input type="hidden" name="fileid" id="fileid" value="">
-                                <button type="submit" class="btn btn-warning btn-sm">Generate Key</button>
+                                <button type="submit" class="btn btn-warning btn-sm" title="Generate the key file."><i class="fa fa-key"></i> Key</button>
                             </form>
                         </td>
                     </tr>
@@ -64,7 +64,7 @@
             {% else %}
             <div class="text-center container">
                 <p class="display-4 text-info font-weight-bold">No files to display.Please click below button to upload.</p>
-                <a class="btn btn-info btn-lg" href="{% url 'upload' %}">Upload</a>
+                <a class="btn btn-info btn-lg" href="{% url 'upload' %}"><i class="fa fa-upload"></i> Upload</a>
             </div>
             {% endif %}
             {% if messages %}
@@ -101,20 +101,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body text-center upload-form bg-dark">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'delete_file' %}" onsubmit="$('#cover-spin').show(0)">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'delete_file' %}">
                     {% csrf_token %}
                     <input type="file" name="keyfile" accept="image/*" required>
                     <input type="hidden" name="fileid" id="fileid" value="">
                     <input type="hidden" name="filename" id="filename" value="">
                     <p>Upload your file key here.</p>
-                    <button type="submit" class="btn btn-danger btn-block" id="submit">Delete File</button>
+                    <button type="submit" class="btn btn-danger btn-block" id="submit"><i class="fa fa-trash"></i> Delete</button>
                 </form>
             </div>
         </div>
     </div>
-</div>
-
-<div id="cover-spin">
-    <div class="lds-ripple"><div></div><div></div></div>
 </div>
 {% endblock %}

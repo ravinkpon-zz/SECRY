@@ -50,7 +50,7 @@
                         <td>{{file.file_name}}</td>
                         <td>{{file.file_size}}</td>
                         <td> <button type="button" class="btn btn-success btn-sm" id="download" data-toggle="modal"
-                                data-target="#exampleModal">Download</button></td>
+                                data-target="#exampleModal"><i class="fa fa-download"></i> Download</button></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -58,7 +58,7 @@
             {% else %}
             <div class="text-center container">
                 <p class="display-4 text-info font-weight-bold">No files to display.Please click below button to upload.</p>
-                <a class="btn btn-info btn-lg" href="{% url 'upload' %}">Upload</a>
+                <a class="btn btn-info btn-lg" href="{% url 'upload' %}"><i class="fa fa-upload"></i> Upload</a>
             </div>
             {% endif %}
         </div>
@@ -73,20 +73,16 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body text-center upload-form">
-                <form method="POST" onsubmit="$('#cover-spin').show(0)" enctype="multipart/form-data" action="{% url 'download_file' %}">
+                <form method="POST" enctype="multipart/form-data" action="{% url 'download_file' %}">
                     {% csrf_token %}
                     <input type="file" name="keyfile" accept="image/*" required>
                     <input type="hidden" name="fileid" id="fileid" value="">
                     <input type="hidden" name="filename" id="filename" value="">
                     <p>Drag and drop a file or Click here</p>
-                    <button type="submit" class="btn btn-success btn-block">Download File</button>
+                    <button type="submit" class="btn btn-success btn-block"><i class="fa fa-download"></i> Download</button>
                 </form>
             </div>
         </div>
     </div>
-</div>
-
-<div id="cover-spin">
-    <div class="lds-ripple"><div></div><div></div></div>
 </div>
 {% endblock %}

@@ -40,7 +40,7 @@
                 </div>
                 <div class="card-body">
                     <form method="POST" class="register-form was-validated needs-validation" id="register-form"
-                        name="update-profile" action="{% url 'edituser' %}" onsubmit="$('#cover-spin').show(0)">
+                        name="update-profile" action="{% url 'edituser' %}">
                         {% csrf_token %}
                         {% if user %}
                         <div class="form-group">
@@ -101,7 +101,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md pr-1">
-                            <form method="POST" class="register-form" name="changepass" action="{% url 'changepass' %}" onsubmit="$('#cover-spin').show(0)">
+                            <form method="POST" class="register-form" name="changepass" action="{% url 'changepass' %}">
                                 {% csrf_token %}
                                 <div class="form-group">
                                     <label for="email"><i class="zmdi zmdi-email"></i>
@@ -167,14 +167,10 @@
             </div>
             <div class="modal-footer">
                 <a class="btn btn-info" data-dismiss="modal">Cancel</a>
-                <a href="{% url 'delete_account' %}" onclick="$('#cover-spin').show(0)" class="btn btn-danger">Yes,
+                <a href="{% url 'delete_account' %}"  class="btn btn-danger">Yes,
                     delete it!</a>
             </div>
         </div>
     </div>
-</div>
-
-<div id="cover-spin">
-    <div class="lds-ripple"><div></div><div></div></div>
 </div>
 {% endblock %}
