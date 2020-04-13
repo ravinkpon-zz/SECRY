@@ -149,7 +149,6 @@ def upload_file(request):
 def download_file(request):
     global file_name
     global storedb
-
     dest = os.path.join(MEDIA_ROOT, 'temp/')
     keyfile = request.FILES.get('keyfile')
     fileid = request.POST.get('fileid')
@@ -168,8 +167,9 @@ def download_file(request):
                 data = file_storage.objects.using(
                 storedb[index]).get(store_id=id[:8])
             except:
-                messages.info(request, "File not found.")
-                return redirect('download')
+                response = JsonResponse({"error": "Sorry! File not found"})
+                response.status_code = 403
+                return response
             fname = file_name.split('.')
             file_path = dest + fname[0] + '_' + \
                 str(index+1) + '.' + fname[1]
@@ -206,8 +206,9 @@ def download_file(request):
             return response
         raise Http404
     else:
-        messages.warning(request, "Incorrect key uploaded.")
-        return HttpResponseRedirect('download')
+        response = JsonResponse({"error": " Incorrect key uploaded "})
+        response.status_code = 403 
+        return response
     
 
 

@@ -59,9 +59,9 @@ $(document).ready(function () {
                 a.click();
                 window.URL.revokeObjectURL(url);
             },
-            error:function (err) {  
+            error:function(response) {  
                 $('#cover-spin').fadeOut('fast'); 
-                alert(err);
+                alert(response.responseJSON.error);
             }
         })
     })
