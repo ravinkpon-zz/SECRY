@@ -6,7 +6,7 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.views.static import serve
 from django.contrib import messages
-from django.http import Http404, request,HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse, request
 from shutil import copyfile
 from account.models import *
 from .functions import *
@@ -18,7 +18,8 @@ import sys
 import shutil
 import logging
 import socket
-import smtplib,hashlib
+import smtplib
+import hashlib
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.files import File
 from django.core.mail import EmailMessage
@@ -37,14 +38,15 @@ if sys.platform == 'win32':
     asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 
-def my_random_string(string_length):    #Random string generation for making id
-    random = str(uuid4()) 
-    random = random.upper() 
-    random = random.replace("-", "") 
-    return random[0:string_length] 
+def my_random_string(string_length):  # Random string generation for making id
+    random = str(uuid4())
+    random = random.upper()
+    random = random.replace("-", "")
+    return random[0:string_length]
+
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def upload(request):                                                #Upload page request function
+def upload(request):  # Upload page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
@@ -53,8 +55,10 @@ def upload(request):                                                #Upload page
     else:
         return redirect('signin')
 
+
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
-def download(request):                                              # Download page request function
+# Download page request function
+def download(request):
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
         current_user = request.user
@@ -68,7 +72,8 @@ def download(request):                                              # Download p
         return redirect('signin')
 
 
-def upload_file(request):                           # Upload_file function - process the uploading of file
+# Upload_file function - process the uploading of file
+def upload_file(request):
     global storedb
     global uid
     global file_name
@@ -80,12 +85,13 @@ def upload_file(request):                           # Upload_file function - pro
         if file_info.objects.filter(file_name=file_name, user=request.user).exists():
             messages.warning(request, 'File with same name already exists.')
             return redirect(reverse_lazy('upload'))
-        elif size > 41943040 :
-            messages.warning(request, 'File excceed upload limit, maimum size 40 MB')
+        elif size > 41943040:
+            messages.warning(
+                request, 'File excceed upload limit, maimum size 40 MB')
             return redirect(reverse_lazy('upload'))
         else:
-            dest = os.path.join(MEDIA_ROOT,'temp/')
-           
+            dest = os.path.join(MEDIA_ROOT, 'temp/')
+
             try:
                 Dir = os.listdir(dest)
                 for file in Dir:
@@ -99,11 +105,12 @@ def upload_file(request):                           # Upload_file function - pro
             key, iv1, iv2, data = generateKey(fileid)
             alnum = enc_order()
             listDir = sorted(os.listdir(dest))
-            info = file_info.objects.create(file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
+            info = file_info.objects.create(
+                file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
             for file in listDir:
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
-                file_path = os.path.join(dest,file)
-                file_path = shutil.move(file_path,MEDIA_ROOT)
+                file_path = os.path.join(dest, file)
+                file_path = shutil.move(file_path, MEDIA_ROOT)
                 if(alnum[index] == 1):
                     iv = iv2
                 else:
@@ -113,10 +120,10 @@ def upload_file(request):                           # Upload_file function - pro
                     header = '\n' + (str)(alnum[index])
                     f.write(header)
                     f.close()
-                with open(file_path,'rb') as file:
+                with open(file_path, 'rb') as file:
                     binaryData = file.read()
                     file.close()
-                data = file_storage(store_id=id[:8],content=binaryData)
+                data = file_storage(store_id=id[:8], content=binaryData)
                 data.save(using=storedb[index])
                 os.remove(file_path)
                 index = index+1
@@ -134,68 +141,75 @@ def upload_file(request):                           # Upload_file function - pro
             email.send(fail_silently=False)
             os.remove(attach)
             info.save()
-            messages.success(request,"File uploaded successfully.")
+            messages.success(request, "File uploaded successfully.")
             return redirect('upload')
 
 
-def download_file(request):                     # Download_file function to process downloading of the file
+# Download_file function to process downloading of the file
+def download_file(request):
     global file_name
     global storedb
-    if request.method == 'POST' and request.FILES['keyfile']:
-        dest = os.path.join(MEDIA_ROOT,'temp/')
-        keyfile = request.FILES['keyfile']
-        fileid = request.POST['fileid']
-        file_name = request.POST['filename']
-        key,iv1,iv2 = FetchKey(keyfile)
-        try:
-            info = file_info.objects.get(file_id=fileid,file_key=key)
-        except ObjectDoesNotExist:
-            info = None
-        if info is not None:
-            index = 0
-            while(index<3):
-                id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
-                try:
-                    data = file_storage.objects.using(storedb[index]).get(store_id=id[:8])
-                except:
-                    messages.info(request, "File not found.")
-                    return redirect('download')
-                fname = file_name.split('.')
-                file_path = dest +fname[0] + '_' + str(index+1) + '.' + fname[1]
-                with open(file_path,'wb') as file:
-                    file.write(data.content)
-                    file.close()
-                with open(file_path, "rb+") as file:
-                    file.seek(0, os.SEEK_END)
-                    pos = file.tell() - 1
-                    while pos > 0 and file.read(1) != b"\n":
-                        pos -= 1
-                        file.seek(pos, os.SEEK_SET)
-                    if pos > 0:
-                        file.seek(pos, os.SEEK_SET)
-                        alnum = int(file.read().decode())
-                        file.seek(pos-1, os.SEEK_SET)
-                        file.truncate()
-                        file.truncate()
-                    file.close()
-                if(alnum == 1):
-                    iv = iv2
-                else:
-                    iv = iv1
-                decrypt(alnum, key, file_path, iv)
-                index = index+1
-            todir = os.path.join(MEDIA_ROOT,file_name)
-            join(dest, todir)
-            if os.path.exists(todir):
-                with open(todir, 'rb') as fh:
-                    response = HttpResponse(fh.read(), content_type="text/plain")
-                    response['Content-Disposition'] = 'attachment; filename=' + file_name
-                os.remove(todir) 
-                return response
-            raise Http404
-        else:
-            messages.warning(request, "Incorrect key uploaded.")
-            return redirect('download')
+
+    dest = os.path.join(MEDIA_ROOT, 'temp/')
+    keyfile = request.FILES.get('keyfile')
+    fileid = request.POST.get('fileid')
+    file_name = request.POST.get('filename')
+    print(file_name)
+    key, iv1, iv2 = FetchKey(keyfile)
+    try:
+        info = file_info.objects.get(file_id=fileid, file_key=key)
+    except ObjectDoesNotExist:
+        info = None
+    if info is not None:
+        index = 0
+        while(index < 3):
+            id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
+            try:
+                data = file_storage.objects.using(
+                storedb[index]).get(store_id=id[:8])
+            except:
+                messages.info(request, "File not found.")
+                return redirect('download')
+            fname = file_name.split('.')
+            file_path = dest + fname[0] + '_' + \
+                str(index+1) + '.' + fname[1]
+            with open(file_path, 'wb') as file:
+                file.write(data.content)
+                file.close()
+            with open(file_path, "rb+") as file:
+                file.seek(0, os.SEEK_END)
+                pos = file.tell() - 1
+                while pos > 0 and file.read(1) != b"\n":
+                    pos -= 1
+                    file.seek(pos, os.SEEK_SET)
+                if pos > 0:
+                    file.seek(pos, os.SEEK_SET)
+                    alnum = int(file.read().decode())
+                    file.seek(pos-1, os.SEEK_SET)
+                    file.truncate()
+                    file.truncate()
+                file.close()
+            if(alnum == 1):
+                iv = iv2
+            else:
+                iv = iv1
+            decrypt(alnum, key, file_path, iv)
+            index = index+1
+        todir = os.path.join(MEDIA_ROOT, file_name)
+        join(dest, todir)
+        if os.path.exists(todir):
+            with open(todir, 'rb') as fh:
+                response = HttpResponse(
+                    fh.read(), content_type="text/plain")
+                response['Content-Disposition'] = 'attachment; filename=' + file_name
+            os.remove(todir)
+            return response
+        raise Http404
+    else:
+        messages.warning(request, "Incorrect key uploaded.")
+        return HttpResponseRedirect('download')
+    
+
 
 def view(request):                                                  #View uploaded files page request function
     if request.user.is_authenticated and request.user.is_active:

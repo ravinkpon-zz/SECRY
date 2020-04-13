@@ -1,5 +1,6 @@
 @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
 @import url("https://fonts.googleapis.com/css?family=Roboto");
+
 .no-js #loader {
     display: none;
 }
@@ -20,10 +21,12 @@
     z-index: 9999;
     background: url("../images/logo.gif") center no-repeat #fff;
 }
-main{
+
+main {
     align-items: center;
 }
-.form-control{
+
+.form-control {
     border: none;
     border-bottom: 1px solid #999;
     font-family: Poppins;
@@ -43,6 +46,7 @@ body {
     height: 16px;
     vertical-align: text-bottom;
 }
+
 /* Header */
 #logo-name {
     font-family: Quantico;
@@ -166,6 +170,7 @@ ul li.nav-item {
     outline: none;
     opacity: 0;
 }
+
 /* file download */
 .download-form {
     position: absolute;
@@ -178,6 +183,7 @@ ul li.nav-item {
     height: 200px;
     border: 4px dashed #fff;
 }
+
 .download-form p {
     width: 100%;
     height: 100%;
@@ -196,6 +202,7 @@ ul li.nav-item {
     outline: none;
     opacity: 0;
 }
+
 /* Table */
 table th {
     vertical-align: middle;
@@ -250,6 +257,7 @@ div.full-name {
     align-content: center;
     padding-right: 50px;
 }
+
 /* footer */
 .footer {
     position: fixed;
@@ -262,4 +270,72 @@ div.full-name {
     background-color: rgb(235, 237, 238);
     color: rgb(41, 40, 40);
     height: 65px;
+}
+
+/*Process loader*/
+#cover-spin {
+    display: none;
+    position: fixed;
+    width: 100%;
+    top: 0px; 
+    bottom: 0px;
+    z-index: 9999;
+    background-color: rgba(27, 27, 27, 0.733);
+    text-align: center;
+    vertical-align: middle;
+}
+.loading-flash{
+    left: 50%;
+    top: 50%;
+    position: absolute;
+}
+.loading-flash div {
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    box-sizing: border-box;
+    background: #e5fd0e;
+}
+
+.loading-flash div:nth-of-type(7) {
+    animation: flash 0.8s 0.3s ease-in-out infinite;
+}
+
+.loading-flash div:nth-of-type(6) {
+    animation: flash 0.8s 0.2s ease-in-out infinite;
+}
+
+.loading-flash div:nth-of-type(5) {
+    animation: flash 0.8s 0.1s ease-in-out infinite;
+}
+
+.loading-flash div:nth-of-type(4) {
+    animation: flash 0.8s linear infinite;
+}
+
+.loading-flash div:nth-of-type(3) {
+    animation: flash 0.8s -0.1s linear infinite;
+}
+
+.loading-flash div:nth-of-type(2) {
+    animation: flash 0.8s -0.2s linear infinite;
+}
+
+.loading-flash div:nth-of-type(1) {
+    animation: flash 0.8s -0.3s linear infinite;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5
+    }
+
+    100% {
+        opacity: 1.0
+    }
 }

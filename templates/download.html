@@ -73,9 +73,9 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-body text-center upload-form">
-                <form method="POST" enctype="multipart/form-data" action="{% url 'download_file' %}">
+                <form method="POST" enctype="multipart/form-data" id="post-form">
                     {% csrf_token %}
-                    <input type="file" name="keyfile" accept="image/*" required>
+                    <input type="file" name="keyfile" id="keyfile" accept="image/*" required>
                     <input type="hidden" name="fileid" id="fileid" value="">
                     <input type="hidden" name="filename" id="filename" value="">
                     <p>Drag and drop a file or Click here</p>
