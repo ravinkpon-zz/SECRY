@@ -4,8 +4,8 @@
 
 <head>
     <!-- Required meta tags -->
-    <meta name="description" content="An application that uses hybrid cryptography to store your webpages securely in cloud.This is a project based on secure file storage on cloud usibg hybrid cryptography.">
     <meta name="keywords" content="SECRY - SEcure cloud storage using hybrid CRYptography">
+    <meta name="description" content="An application that uses hybrid cryptography to store your webpages securely in cloud.This is a project based on secure file storage on cloud usibg hybrid cryptography.">
     <meta name="author" content="Alin Babu">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Bootstrap CSS -->
@@ -20,10 +20,10 @@
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/simple-line-icons/2.4.1/css/simple-line-icons.css"
         rel="stylesheet" />
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
     <link rel="icon" href="{% static 'images/logot-25.png' %}" type="image/x-icon">
     <title>SECRY</title>
     <meta name="google-site-verification" content="FcHltav4fG9Okx8KDt8mPdycnb7YyIZBSlgauSvdJDY" />
+    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css">
 </head>
 
 <body style="background-color: white;">
@@ -73,8 +73,10 @@
                             <h1>Secure your confidential files</h1>
                             <p>Sign Up for storing the files. Files will be stored securely.</p><br>
                             <p class="log-button">
-                                <a class="btn btn-lg btn-outline-info" href="{% url 'signin' %}" role="button">Log In</a>
-                                <a class="btn btn-lg btn-outline-info" href="{% url 'register' %}" role="button">Sign up</a>
+                                <a class="btn btn-lg btn-outline-info" href="{% url 'signin' %}" role="button">Log
+                                    In</a>
+                                <a class="btn btn-lg btn-outline-info" href="{% url 'register' %}" role="button">Sign
+                                    up</a>
                             </p>
                         </div>
                     </div>
@@ -88,8 +90,10 @@
                                 security
                                 keys</p><br>
                             <p class="log-button">
-                                <a class="btn btn-lg btn-outline-dark" href="{% url 'signin' %}" role="button">Log In</a>
-                                <a class="btn btn-lg btn-outline-dark" href="{% url 'register' %}" role="button">Sign up</a>
+                                <a class="btn btn-lg btn-outline-dark" href="{% url 'signin' %}" role="button">Log
+                                    In</a>
+                                <a class="btn btn-lg btn-outline-dark" href="{% url 'register' %}" role="button">Sign
+                                    up</a>
                             </p>
                         </div>
                     </div>
@@ -101,8 +105,10 @@
                             <h1>Protect your data on cloud.</h1>
                             <p>Sign Up now! To protect your files and only youc can acess it.</p><br>
                             <p class="log-button">
-                                <a class="btn btn-lg btn-outline-primary" href="{% url 'signin' %}" role="button">Log In</a>
-                                <a class="btn btn-lg btn-outline-primary" href="{% url 'register' %}" role="button">Sign up</a>
+                                <a class="btn btn-lg btn-outline-primary" href="{% url 'signin' %}" role="button">Log
+                                    In</a>
+                                <a class="btn btn-lg btn-outline-primary" href="{% url 'register' %}" role="button">Sign
+                                    up</a>
                             </p>
                         </div>
                     </div>
@@ -256,13 +262,54 @@
         </div>
     </section>
     <!-- /END THE FEATURETTES -->
+    <!-- Team members -->
+    <div class="team">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6  text-center">
+                    <h2 class="team-heading">MEET OUR TEAM</h2>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <img class="img-fluid" alt="team-photo"
+                        src="{% static 'images/akshay_photo.png' %}"
+                        width="200px" height="200px">
+                    <div class="team-member">
+                        <h4>Akshay P S</h4>
+                    </div>
+                </div>
+                <!--col-lg-4 -->
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <img class="img-fluid" alt="team-photo"
+                        src="{% static 'images/alin_photo.jpg' %}"
+                        width="200px" height="200px">
+                    <div class="team-member">
+                        <h4>Alin Babu</h4>
+                    </div>
+                </div>
+                <!--col-lg-4 -->
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                    <img class="img-fluid" alt="team-photo"
+                        src="{% static 'images/rahul_photo.png' %}"
+                        width="200px" height="200px">
+                    <div class="team-member">
+                        <h4>Rahul M</h4>
+                    </div>
+                </div> <!-- col-lg-4 -->
+            </div> <!-- row text-center -->
+        </div>
+    </div>
     <!--Contact Us-->
     <div class="container contact-form" id="contact">
         <div class="contact-image">
             <img src="https://image.ibb.co/kUagtU/rocket_contact.png" alt="rocket_contact" />
         </div>
-        <form method="POST"   enctype="multipart/form-data" action="{% url 'contact' %}">
-        {% csrf_token %}
+        <form method="POST" enctype="multipart/form-data" action="{% url 'contact' %}">
+            {% csrf_token %}
             <h3>Drop us a Message</h3>
             <div class="row">
                 <div class="col-md-6">
@@ -270,10 +317,10 @@
                         <input type="text" name="txtName" class="form-control" placeholder="Your Name *" />
                     </div>
                     <div class="form-group">
-                        <input type="text" name="txtEmail" class="form-control" placeholder="Your Email *"/>
+                        <input type="text" name="txtEmail" class="form-control" placeholder="Your Email *" />
                     </div>
                     <div class="form-group">
-                        <input type="text" name="txtPhone" class="form-control" placeholder="Your Phone Number *"/>
+                        <input type="text" name="txtPhone" class="form-control" placeholder="Your Phone Number *" />
                     </div>
                     <div class="form-group">
                         <input type="submit" name="btnSubmit" class="btnContact" value="Send Message" />
@@ -309,7 +356,8 @@
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script> 
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
     <script src="{% static 'js/main.js'%}"></script>
 </body>
+
 </html>

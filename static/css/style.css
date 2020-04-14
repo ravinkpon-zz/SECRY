@@ -1,3 +1,4 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:400,900,700,600,500,300,200,100,800);
 .no-js #loader { display: none;  }
 .js #loader { display: block; position: absolute; left: 100px; top: 0; }
 .loader {
@@ -105,12 +106,39 @@ div#about div img{
 .row.featurette {
     margin: 100px;
     padding: 100px;
+    margin-bottom: 0px;
+}
+/* Team */
+.team {
+    background-color: #d8d8d8;
+    font-family: 'Raleway', sans-serif;
+    width: 100%;
+    height: auto;
+    padding-bottom: 70px;
+}
+.team .row{
+    background-color: #d8d8d8;
+}
+.team h4 {
+    margin-top: 20px;
+    color: rgb(41, 40, 40);
+}
+.team-heading {
+    color: #4C4C4C;
+    word-spacing: 5px;
+    font-size: 50px;
+    font-weight: 700;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    font-family: 'Raleway', sans-serif;
+}
+.team img {
+    border-radius: 50%;
 }
 
 /* Contact */
 .contact-form {
     background: rgb(255, 255, 255);
-    margin-top: -5.2%;
     margin-bottom: 5%;
     width: 70%;
 }
