@@ -72,13 +72,13 @@
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-body text-center upload-form">
+            <div class="modal-body text-center upload-form bg-dark">
                 <form method="POST" enctype="multipart/form-data" id="post-form">
                     {% csrf_token %}
                     <input type="file" name="keyfile" id="keyfile" accept="image/*" required>
                     <input type="hidden" name="fileid" id="fileid" value="">
                     <input type="hidden" name="filename" id="filename" value="">
-                    <p>Drag and drop a file or Click here</p>
+                    <p>Drag and drop the key file or Click here to upload the key file.</p>
                     <button type="submit" class="btn btn-success btn-block"><i class="fa fa-download"></i> Download</button>
                 </form>
             </div>
