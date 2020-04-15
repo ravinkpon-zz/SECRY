@@ -1,17 +1,22 @@
-from django.views.decorators.cache import cache_control
+from django.http import Http404, HttpResponse, JsonResponse, request
 from django.core.files.storage import FileSystemStorage
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.views.static import serve
 from django.contrib import messages
-from django.http import Http404, HttpResponse, JsonResponse, request
+from django.core.files import File
+from django.core.mail import EmailMessage
+from secry.settings import BASE_DIR
 from shutil import copyfile
 from account.models import *
 from .functions import *
 from .keys import *
 from uuid import uuid4
+from django.urls import reverse_lazy
 import os
 import random
 import sys
@@ -20,13 +25,6 @@ import logging
 import socket
 import smtplib
 import hashlib
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.files import File
-from django.core.mail import EmailMessage
-from secry.settings import BASE_DIR
-import zlib
-from django.urls import reverse_lazy
-from django.http.response import HttpResponseRedirect
 
 file_name = ""
 User = get_user_model()
@@ -45,7 +43,7 @@ def my_random_string(string_length):  # Random string generation for making id
     return random[0:string_length]
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
 def upload(request):  # Upload page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -55,9 +53,8 @@ def upload(request):  # Upload page request function
     else:
         return redirect('signin')
 
-
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 # Download page request function
+@login_required(login_url='login')
 def download(request):
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -73,6 +70,7 @@ def download(request):
 
 
 # Upload_file function - process the uploading of file
+@login_required(login_url='login')
 def upload_file(request):
     global storedb
     global uid
@@ -146,6 +144,7 @@ def upload_file(request):
 
 
 # Download_file function to process downloading of the file
+@login_required(login_url='login')
 def download_file(request):
     global file_name
     global storedb
@@ -211,7 +210,7 @@ def download_file(request):
         return response
     
 
-
+@login_required(login_url='login')
 def view(request):                                                  #View uploaded files page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -226,7 +225,7 @@ def view(request):                                                  #View upload
         return redirect('signin')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
 def dash(request):                                              #Dahboard page of user account request
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -238,7 +237,7 @@ def dash(request):                                              #Dahboard page o
         return redirect('signin')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
 def account(request):                                               #Account pages request for user details
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -247,7 +246,7 @@ def account(request):                                               #Account pag
         return redirect('signin')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='login')
 def settings(request):                                              #Account settings page request
     global uid
     if request.user.is_authenticated and request.user.is_active:
@@ -259,6 +258,7 @@ def settings(request):                                              #Account set
         return redirect('signin')
 
 
+@login_required(login_url='login')
 def changepass(request):                                           #User account password change
     if(request.method == "POST"):
         password1 = request.POST['password1']
@@ -271,6 +271,7 @@ def changepass(request):                                           #User account
         return redirect('settings')
 
 
+@login_required(login_url='login')
 def edituser(request):                                          #User info change process request
     if(request.method == "POST"):
         first_name = request.POST['firstname']
@@ -292,6 +293,8 @@ def edituser(request):                                          #User info chang
         messages.success(request, "Your changes are saved.")
         return render(request, 'settings.html', {"user": user})
 
+
+@login_required(login_url='login')
 def delete_file(request):                               #Delete_file from server request
     global file_name
     global storedb
@@ -321,6 +324,8 @@ def delete_file(request):                               #Delete_file from server
         messages.success(request, "File deleted sucessfully.")
         return redirect('view')
 
+
+@login_required(login_url='login')
 def generate(request):                      #Generate the key file for the user.
     if(request.method=='POST'):
         id = request.POST['fileid']
@@ -347,6 +352,8 @@ def generate(request):                      #Generate the key file for the user.
             messages.success(request, "Key send to the email")
             return redirect('view')
 
+
+@login_required(login_url='login')
 def delete_account(request):                #Delete a user account and files request.
     user = User.objects.get(username=request.user.username)
     current_user = request.user.user_id
