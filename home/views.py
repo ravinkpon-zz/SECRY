@@ -36,7 +36,7 @@ def signin(request):            #  Sigin request
 def signout(request):               #Signout request
     if request.method == "POST":
         logout(request)
-        return redirect('home')
+        return render(request, 'index.html')
 
 def register(request):                      #User registration request and processing
     if request.method == 'POST':
