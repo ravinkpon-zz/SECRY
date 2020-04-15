@@ -7,7 +7,7 @@ from django.contrib.auth import logout,login
 from django.http.response import HttpResponseRedirect
 from account.views import my_random_string
 from django.template.loader import get_template, render_to_string
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
@@ -64,9 +64,10 @@ def register(request):                      #User registration request and proce
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your SECRY account.'
-            html_message = loader.render_to_string('acc_active_email.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
-            email = EmailMessage(mail_subject, html_message, 'admin@secrycloud.tech', [email])
-            email.send(fail_silently=False)
+            html_message = loader.get_template('acc_active_email.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [email])
+            msg.attach_alternative(html_message, "text/html")
+            msg.send(fail_silently=False)
             messages.info(request, 'Please confirm your email address to complete the registration')
             return render(request, 'response.html')
             
