@@ -13,6 +13,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .tokens import account_activation_token
 from django.utils.html import strip_tags
+from django.template import loader
 
 User = get_user_model()
 
@@ -63,7 +64,7 @@ def register(request):                      #User registration request and proce
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your SECRY account.'
-            html_message = render_to_string('acc_active_email.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
+            html_message = loader.render_to_string('acc_active_email.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
             plain_message = strip_tags(html_message)
             email = EmailMessage(mail_subject, plain_message, 'admin@secrycloud.tech', [email])
             email.send(fail_silently=False)
