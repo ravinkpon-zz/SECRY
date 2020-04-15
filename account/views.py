@@ -43,7 +43,7 @@ def my_random_string(string_length):  # Random string generation for making id
     return random[0:string_length]
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def upload(request):  # Upload page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -54,7 +54,7 @@ def upload(request):  # Upload page request function
         return redirect('signin')
 
 # Download page request function
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def download(request):
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -70,7 +70,7 @@ def download(request):
 
 
 # Upload_file function - process the uploading of file
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def upload_file(request):
     global storedb
     global uid
@@ -144,7 +144,7 @@ def upload_file(request):
 
 
 # Download_file function to process downloading of the file
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def download_file(request):
     global file_name
     global storedb
@@ -210,7 +210,7 @@ def download_file(request):
         return response
     
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def view(request):                                                  #View uploaded files page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -225,7 +225,7 @@ def view(request):                                                  #View upload
         return redirect('signin')
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def dash(request):                                              #Dahboard page of user account request
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -237,7 +237,7 @@ def dash(request):                                              #Dahboard page o
         return redirect('signin')
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def account(request):                                               #Account pages request for user details
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -246,7 +246,7 @@ def account(request):                                               #Account pag
         return redirect('signin')
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def settings(request):                                              #Account settings page request
     global uid
     if request.user.is_authenticated and request.user.is_active:
@@ -258,7 +258,7 @@ def settings(request):                                              #Account set
         return redirect('signin')
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def changepass(request):                                           #User account password change
     if(request.method == "POST"):
         password1 = request.POST['password1']
@@ -271,7 +271,7 @@ def changepass(request):                                           #User account
         return redirect('settings')
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def edituser(request):                                          #User info change process request
     if(request.method == "POST"):
         first_name = request.POST['firstname']
@@ -294,7 +294,7 @@ def edituser(request):                                          #User info chang
         return render(request, 'settings.html', {"user": user})
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def delete_file(request):                               #Delete_file from server request
     global file_name
     global storedb
@@ -325,7 +325,7 @@ def delete_file(request):                               #Delete_file from server
         return redirect('view')
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def generate(request):                      #Generate the key file for the user.
     if(request.method=='POST'):
         id = request.POST['fileid']
@@ -353,7 +353,7 @@ def generate(request):                      #Generate the key file for the user.
             return redirect('view')
 
 
-@login_required(login_url='login')
+@login_required(login_url='signin')
 def delete_account(request):                #Delete a user account and files request.
     user = User.objects.get(username=request.user.username)
     current_user = request.user.user_id

@@ -35,11 +35,7 @@ def signin(request):            #  Sigin request
     else:
         return render(request, 'signin.html')
 
-def signout(request):               #Signout request
-    if request.method == "POST":
-        logout(request)
-        request.session.flush()
-        return render(request, 'index.html')
+
 
 def register(request):                      #User registration request and processing
     if request.method == 'POST':

@@ -2,11 +2,12 @@ from django.urls import path
 from . import views
 from django.conf.urls import url
 from secry import settings
+from django.contrib.auth.views import LogoutView
 
 urlpatterns = [
     path('',views.home,name='home'),
     path('change',views.change, name='change_password'),
-    url(r'^logout/$', views.signout,{'next_page': settings.LOGOUT_REDIRECT_URL}, name='signout'),
+    url(r'^logout/$', LogoutView.as_view(),{'next_page': settings.LOGOUT_REDIRECT_URL}, name='logout'),
     path('login', views.signin, name='signin'),
     path('register', views.register, name='register'),
     path('contactus', views.contact, name='contact'),
