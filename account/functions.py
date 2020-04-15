@@ -21,10 +21,11 @@ def split(file):                            # File split function
     fname = filename.split('.')
     dest1 = dest + fname[0] +'_3.' + fname[1]
     dest2 = dest + fname[0] + '_4.' + fname[1]
-    with open(dest1,'ab') as f:
-        fl = open(dest2,'rb').read()
-        f.write(b'\n'+fl)
-    os.remove(dest2)
+    if(os.path.exists(dest1)):
+        with open(dest1,'ab') as f:
+            fl = open(dest2,'rb').read()
+            f.write(b'\n'+fl)
+        os.remove(dest2)
 
 def join(fromdir, tofile):              # File joining function
     parts = os.listdir(fromdir)
