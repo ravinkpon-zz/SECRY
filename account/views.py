@@ -43,6 +43,7 @@ def my_random_string(string_length):  # Random string generation for making id
     return random[0:string_length]
 
 
+@cache_control(no_cache=True, must_revalidate=True)
 @login_required(login_url='signin')
 def upload(request):  # Upload page request function
     if request.user.is_authenticated and request.user.is_active:
@@ -54,6 +55,7 @@ def upload(request):  # Upload page request function
         return redirect('signin')
 
 # Download page request function
+@cache_control(no_cache=True, must_revalidate=True)
 @login_required(login_url='signin')
 def download(request):
     if request.user.is_authenticated and request.user.is_active:
@@ -70,6 +72,7 @@ def download(request):
 
 
 # Upload_file function - process the uploading of file
+@cache_control(no_cache=True, must_revalidate=True)
 @login_required(login_url='signin')
 def upload_file(request):
     global storedb
@@ -142,8 +145,8 @@ def upload_file(request):
             messages.success(request, "File uploaded successfully.")
             return redirect('upload')
 
-
 # Download_file function to process downloading of the file
+@cache_control(no_cache=True, must_revalidate=True)
 @login_required(login_url='signin')
 def download_file(request):
     global file_name
@@ -211,6 +214,7 @@ def download_file(request):
     
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def view(request):                                                  #View uploaded files page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -226,6 +230,7 @@ def view(request):                                                  #View upload
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def dash(request):                                              #Dahboard page of user account request
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -238,6 +243,7 @@ def dash(request):                                              #Dahboard page o
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def account(request):                                               #Account pages request for user details
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -247,6 +253,7 @@ def account(request):                                               #Account pag
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def settings(request):                                              #Account settings page request
     global uid
     if request.user.is_authenticated and request.user.is_active:
@@ -259,6 +266,7 @@ def settings(request):                                              #Account set
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def changepass(request):                                           #User account password change
     if(request.method == "POST"):
         password1 = request.POST['password1']
@@ -272,6 +280,7 @@ def changepass(request):                                           #User account
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def edituser(request):                                          #User info change process request
     if(request.method == "POST"):
         first_name = request.POST['firstname']
@@ -295,6 +304,7 @@ def edituser(request):                                          #User info chang
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def delete_file(request):                               #Delete_file from server request
     global file_name
     global storedb
@@ -326,6 +336,7 @@ def delete_file(request):                               #Delete_file from server
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def generate(request):                      #Generate the key file for the user.
     if(request.method=='POST'):
         id = request.POST['fileid']
@@ -354,6 +365,7 @@ def generate(request):                      #Generate the key file for the user.
 
 
 @login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def delete_account(request):                #Delete a user account and files request.
     user = User.objects.get(username=request.user.username)
     current_user = request.user.user_id
