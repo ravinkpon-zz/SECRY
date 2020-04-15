@@ -152,9 +152,14 @@
                     </tr> <!-- COPY -->
                     <tr>
                         <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 0px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
-                            <p style="margin: 0;">If that doesn't work,right click-copy and paste the link in your browser:</p>
+                            <p style="margin: 0;">If that doesn't work,copy and paste the following link in your browser:</p>
                         </td>
                     </tr> <!-- COPY -->
+                    <tr>
+                        <td bgcolor="#ffffff" align="left" style="padding: 20px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
+                            <p style="margin: 0;"><a href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}" target="_blank" style="color: #33bde5;">http://{{ domain }}{% url 'activate' uidb64=uid token=token %}</a></p>
+                        </td>
+                    </tr>
                     <tr>
                         <td bgcolor="#ffffff" align="left" style="padding: 0px 30px 20px 30px; color: #666666; font-family: 'Lato', Helvetica, Arial, sans-serif; font-size: 18px; font-weight: 400; line-height: 25px;">
                             <p style="margin: 0;">If you have any questions, just reply to this email—we're always happy to help out.</p>
