@@ -262,13 +262,12 @@ div.full-name {
 .footer {
     position: fixed;
     bottom: 0px;
-    margin-bottom: 0px;
     width: 100%;
     max-width: 100%;
     width: 100%;
     background-color: rgb(235, 237, 238);
     color: rgb(41, 40, 40);
-    height: 15px;
+    height: 5px;
 }
 
 /*Process loader*/
