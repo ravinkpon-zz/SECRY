@@ -58,8 +58,7 @@ def register(request):                      #User registration request and proce
             messages.warning(request, "Email already exists.")
             return redirect('register')
         else:
-            user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,
-                                                email=email, password=password1, location=location, phone=phone)
+            user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,email=email, password=password1, location=location, phone=phone)
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
