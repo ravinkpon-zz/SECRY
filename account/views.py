@@ -2,6 +2,7 @@ from django.http import Http404, HttpResponse, JsonResponse, request
 from django.core.files.storage import FileSystemStorage
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
