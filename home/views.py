@@ -61,7 +61,7 @@ def register(request):                      #User registration request and proce
             current_site = get_current_site(request)
             mail_subject = 'Activate your SECRY account.'
             html_message = render_to_string('acc_active_email.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
-            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [email])
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [email], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Confirm'})
             msg.attach_alternative(html_message, "text/html")
             msg.send(fail_silently=False)
             messages.info(request, 'Please confirm your email address to complete the registration')
