@@ -87,20 +87,47 @@ def activate(request, uidb64, token):               #Email activation function
         return render(request, 'response.html')
 
 
-def change(request):                        #Account password changing
+def change(request):                        #Account password changing link request
     if(request.method == "POST"):
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
         emailid = request.POST['email']
         if not User.objects.filter(email=emailid).exists():
             messages.info(request, "Email does not exists.")
             return render(request, 'signin.html')
         else:
             user = User.objects.get(email=emailid)
-            user.set_password(password1)
-            user.save()
-            messages.success(request, "Your passsword has been changed.")
+            uid = user.user_id
+            current_site = get_current_site(request)
+            mail_subject = 'Password Reset'
+            html_message = render_to_string('reset_link.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [emailid], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Reset'})
+            msg.attach_alternative(html_message, "text/html")
+            msg.send(fail_silently=False)
+            messages.success(request, "Your passsword rest link send to the email.")
             return render(request, 'signin.html')
+
+
+def change_pass_link(request, uidb64, token):  # Password reset page request
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(user_id=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if account_activation_token.check_token(user, token):
+        return render(request, 'reset_password.html')
+    else:
+        messages.warning(request, 'Password reset link is invalid!')
+        return render(request, 'response.html')
+
+def change_password(request):           # Password reset function
+    if(request.method == 'POST'):
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        emailid = request.POST['email']
+        user = User.objects.get(email=emailid)
+        user.set_password(password1)
+        user.save()
+        messages.success(request, "Your passsword has been changed.")
+        redirect('signin')
 
 
 def contact(request):                   #Contact form processing
