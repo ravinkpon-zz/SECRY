@@ -135,12 +135,11 @@ def upload_file(request):
             emailid = request.user.email
             name = request.user.first_name
             attach = MEDIA_ROOT + '/keys/' + fileid + '.png'
-            fname = fileid + '.pem'
             mail_subject = 'File Upload'
             html_message = render_to_string('key_email.html', {'name': name,'fileid':fileid})
             msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [emailid], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Upload'})
             msg.attach_alternative(html_message, "text/html")
-            msg.attach_file(attach,fname)
+            msg.attach_file(attach)
             msg.send(fail_silently=False)
             os.remove(attach)
             info.save()
@@ -352,13 +351,12 @@ def generate(request):                      #Generate the key file for the user.
             mail = request.user.email
             name = request.user.first_name
             attach = MEDIA_ROOT + '/keys/' + id + '.png'
-            fname = id + '.pem'
             mail_subject = 'Regenerate Key'
             html_message = render_to_string(
                 'key_email.html', {'name': name, 'fileid': id})
             msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [mail], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Upload'})
             msg.attach_alternative(html_message, "text/html")
-            msg.attach_file(attach,fname)
+            msg.attach_file(attach)
             msg.send(fail_silently=False)
             os.remove(attach)
             messages.success(request, "Key send to the email")

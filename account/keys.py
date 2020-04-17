@@ -46,10 +46,8 @@ def keygenerate(data, id):                              #Regenerate the key file
     secret.save(path)
 
 def FetchKey(keyfile):                  #Fetch key file from the file.
-    fname=keyfile.name.split('.')
-    keyname = fname[0]+'.png'
     fs = FileSystemStorage()
-    fs.save(keyname,keyfile)
+    fs.save(keyfile.name,keyfile)
     path = os.path.join(MEDIA_ROOT, keyfile.name)
     data = lsb.reveal(path)
     iv = data.split('-')
