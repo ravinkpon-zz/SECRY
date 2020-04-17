@@ -10,7 +10,7 @@ from django.contrib.auth import logout
 from django.views.static import serve
 from django.contrib import messages
 from django.core.files import File
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from secry.settings import BASE_DIR
 from shutil import copyfile
 from account.models import *
@@ -26,6 +26,9 @@ import logging
 import socket
 import smtplib
 import hashlib
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 file_name = ""
 User = get_user_model()
@@ -129,18 +132,15 @@ def upload_file(request):
                 data.save(using=storedb[index])
                 os.remove(file_path)
                 index = index+1
-            mail = request.user.email
+            emailid = request.user.email
             name = request.user.first_name
             attach = MEDIA_ROOT + '/keys/' + fileid + '.png'
-            email = EmailMessage(
-                'Key for fileid:'+fileid,
-                'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
-                'admin@secrycloud.tech',
-                [mail],
-                headers={'Message-ID': 'foo'},
-            )
-            email.attach_file(attach)
-            email.send(fail_silently=False)
+            mail_subject = 'File Upload'
+            html_message = render_to_string('key_email.html', {'username': name,'fileid':fileid})
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [emailid], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Upload'})
+            msg.attach_alternative(html_message, "text/html")
+            msg.attach_file(attach)
+            msg.send(fail_silently=False)
             os.remove(attach)
             info.save()
             messages.success(request, "File uploaded successfully.")

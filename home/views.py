@@ -102,7 +102,7 @@ def change(request):                        #Account password changing link requ
             msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [emailid], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Reset'})
             msg.attach_alternative(html_message, "text/html")
             msg.send(fail_silently=False)
-            messages.success(request, "Your passsword rest link send to the email.")
+            messages.success(request, "Your passsword reset link send to the email.")
             return render(request, 'signin.html')
 
 
