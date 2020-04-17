@@ -164,7 +164,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'home.User'
 
-EMAIL_HOST = 'smtp.flockmail.com '
+EMAIL_HOST = 'smtp.flockmail.com'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_PORT = '465'
 EMAIL_HOST_USER = 'admin@secrycloud.tech'
