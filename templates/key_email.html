@@ -129,8 +129,7 @@
                                         <td class="content-block"
                                             style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                             valign="top">
-                                            Hi<strong
-                                                style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">{{name}}</strong>.-
+                                            Hi<strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"> {{name}}</strong>,
                                         </td>
                                     </tr>
                                     <tr
@@ -138,8 +137,11 @@
                                         <td class="content-block"
                                             style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;"
                                             valign="top">
-                                            You had uploaded a file to SECRY. Your file id is {{fileid}} and also key file is
-                                            attached below. Use the key file for accessing the file.Please keep it safe.
+                                            {% if create %}
+                                            You had uploaded a file to SECRY. Your file id is {{fileid}} and also key file is attached below. Use the key file for accessing the file.Please keep it safe.
+                                            {% else %} 
+                                            You had requested to generate the key file for your fileid: {{fileid}}.Please see the attachment below. Use the key file for accessing the file.Please keep it safe.
+                                            {% endif %} 
                                         </td>
                                     </tr>
                                     <tr
