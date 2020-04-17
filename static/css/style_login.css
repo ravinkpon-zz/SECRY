@@ -230,8 +230,6 @@ figure {
 
 .form-submit {
   display: inline-block;
-  background: #6dabe4;
-  color: #fff;
   border-bottom: none;
   width: auto;
   padding: 15px 30px;
@@ -244,10 +242,6 @@ figure {
   cursor: pointer;
 }
 
-.form-submit:hover {
-  background: #4292dc;
-}
-
 #signin {
   margin-top: 50px;
 }
@@ -257,11 +251,6 @@ figure {
   color: #222;
   display: block;
   text-align: center;
-}
-
-.term-service {
-  font-size: 13px;
-  color: #222;
 }
 
 .signup-form {
@@ -328,60 +317,6 @@ input:focus:-ms-input-placeholder {
 
 input:focus:-moz-placeholder {
   color: #222;
-}
-
-input[type=checkbox]:not(old) {
-  width: 2em;
-  margin: 0;
-  padding: 0;
-  font-size: 1em;
-  display: none;
-}
-
-input[type=checkbox]:not(old)+label {
-  display: inline-block;
-  line-height: 1.5em;
-  margin-top: 6px;
-}
-
-input[type=checkbox]:not(old)+label>span {
-  display: inline-block;
-  width: 13px;
-  height: 13px;
-  margin-right: 15px;
-  margin-bottom: 3px;
-  border: 1px solid #999;
-  border-radius: 2px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  -o-border-radius: 2px;
-  -ms-border-radius: 2px;
-  background: white;
-  background-image: -moz-linear-gradient(white, white);
-  background-image: -ms-linear-gradient(white, white);
-  background-image: -o-linear-gradient(white, white);
-  background-image: -webkit-linear-gradient(white, white);
-  background-image: linear-gradient(white, white);
-  vertical-align: bottom;
-}
-
-input[type=checkbox]:not(old):checked+label>span {
-  background-image: -moz-linear-gradient(white, white);
-  background-image: -ms-linear-gradient(white, white);
-  background-image: -o-linear-gradient(white, white);
-  background-image: -webkit-linear-gradient(white, white);
-  background-image: linear-gradient(white, white);
-}
-
-input[type=checkbox]:not(old):checked+label>span:before {
-  content: '\f26b';
-  display: block;
-  color: #222;
-  font-size: 11px;
-  line-height: 1.2;
-  text-align: center;
-  font-family: 'Material-Design-Iconic-Font';
-  font-weight: bold;
 }
 
 label {
