@@ -125,6 +125,7 @@ def change_password(request):           # Password reset function
         password2 = request.POST['password2']
         emailid = request.POST['email']
         user = User.objects.get(email=emailid)
+        print(emailid)
         user.set_password(password1)
         user.save()
         messages.success(request, "Your passsword has been changed")
