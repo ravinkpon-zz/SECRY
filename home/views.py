@@ -113,7 +113,8 @@ def change_pass_link(request, uidb64, token):  # Password reset page request
     except(TypeError, ValueError, OverflowError, User.DoesNotExist):
         user = None
     if account_activation_token.check_token(user, token):
-        return render(request, 'reset_password.html')
+        email = user.email
+        return render(request, 'reset_password.html',{'email':email})
     else:
         messages.warning(request, 'Password reset link is invalid!')
         return render(request, 'response.html')
@@ -122,11 +123,11 @@ def change_password(request):           # Password reset function
     if(request.method == 'POST'):
         password1 = request.POST['password1']
         password2 = request.POST['password2']
-        emailid = request.user.user_email
+        emailid = request.POST['email']
         user = User.objects.get(email=emailid)
         user.set_password(password1)
         user.save()
-        messages.success(request, "Your passsword has been changed.")
+        messages.success(request, "Your passsword has been changed")
         redirect('signin')
 
 
