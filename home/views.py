@@ -128,7 +128,7 @@ def change_password(request):           # Password reset function
         user.set_password(password1)
         user.save()
         messages.success(request, "Your passsword has been changed")
-        return render(request, 'signin.html')
+        return render(request, 'response.html')
 
 
 def contact(request):                   #Contact form processing
