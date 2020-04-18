@@ -59,7 +59,7 @@
                                 <button type="submit" name="signin" id="signin" class="btn btn-primary form-submit">Log in</button>
                             </div>
                             {% for message in messages %}
-                            <span class="text-danger text-center mt-1" id="myDiv" style="position:absolute;margin-bottom:0px;"><strong>
+                            <span class="text-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} text-center mt-1" id="myDiv" style="position:absolute;margin-bottom:0px;"><strong>
                                     {{message}}</strong></span>
                             {% endfor %}
                         </form>
