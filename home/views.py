@@ -29,7 +29,7 @@ def signin(request):            #  Sigin request
             login(request,user)
             return redirect('dash')
         else:
-            messages.info(request, 'Invalid crenditals')
+            messages.error(request, 'Invalid crenditals')
             return redirect('signin')
 
     else:
@@ -49,10 +49,10 @@ def register(request):                      #User registration request and proce
         phone = request.POST['phone']
         uid = my_random_string(10)
         if User.objects.filter(username=username).exists():
-            messages.warning(request, 'Username already exists.')
+            messages.error(request, 'Username already exists.')
             return redirect('register')
         elif User.objects.filter(email=email).exists():
-            messages.warning(request, "Email already exists.")
+            messages.error(request, "Email already exists.")
             return redirect('register')
         else:
             user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,email=email, password=password1, location=location, phone=phone)
@@ -83,7 +83,7 @@ def activate(request, uidb64, token):               #Email activation function
         messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
         return render(request, 'response.html')
     else:
-        messages.warning(request, 'Activation link is invalid!')
+        messages.info(request, 'Activation link is invalid!')
         return render(request, 'response.html')
 
 
