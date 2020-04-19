@@ -55,4 +55,13 @@ def FetchKey(keyfile):                  #Fetch key file from the file.
     iv1 = b64decode(iv[1].encode('utf-8'))
     iv2 = b64decode(iv[2].encode('utf-8'))
     os.remove(path)
-    return key, iv1, iv2
+    return data, key, iv1, iv2
+
+
+def FetchKeyData(keyfile):  # Fetch key data file from the file.
+    fs = FileSystemStorage()
+    fs.save(keyfile.name, keyfile)
+    path = os.path.join(MEDIA_ROOT, keyfile.name)
+    data = lsb.reveal(path)
+    os.remove(path)
+    return data

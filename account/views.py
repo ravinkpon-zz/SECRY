@@ -111,7 +111,7 @@ def upload_file(request):
             alnum = enc_order()
             listDir = sorted(os.listdir(dest))
             info = file_info.objects.create(
-                file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
+                file_id=fileid, file_name=file_name, user=request.user, file_size=filesize,file_key=data)
             for file in listDir:
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
                 file_path = os.path.join(dest, file)
@@ -157,9 +157,9 @@ def download_file(request):
     fileid = request.POST.get('fileid')
     file_name = request.POST.get('filename')
     print(file_name)
-    key, iv1, iv2 = FetchKey(keyfile)
+    data, key, iv1, iv2 = FetchKey(keyfile)
     try:
-        info = file_info.objects.get(file_id=fileid, file_key=key)
+        info = file_info.objects.get(file_id=fileid, file_key=data)
     except ObjectDoesNotExist:
         info = None
     if info is not None:
@@ -313,9 +313,9 @@ def delete_file(request):                               #Delete_file from server
         keyfile = request.FILES['keyfile']
         fileid = request.POST['fileid']
         file_name = request.POST['filename']
-        key,iv1,iv2 = FetchKey(keyfile)
+        data = FetchKeyData(keyfile)
         try:
-            info = file_info.objects.get(file_id=fileid, file_key=key)
+            info = file_info.objects.get(file_id=fileid, file_key=data)
         except ObjectDoesNotExist:
             info = None
         if info is None:
@@ -346,7 +346,7 @@ def generate(request):                      #Generate the key file for the user.
         except ObjectDoesNotExist:
             info = None
         if info is not None:
-            fkey = info.file_keydata
+            fkey = info.file_key
             keygenerate(fkey,id)
             mail = request.user.email
             name = request.user.first_name

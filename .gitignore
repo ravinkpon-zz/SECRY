@@ -32,3 +32,5 @@ home/__pycache__/tokens.cpython-38.pyc
 .gitignore
 default-ssl.conf
 default.conf
+account/migrations/0002_file_info.py
+account/migrations/__pycache__/0002_file_info.cpython-38.pyc
