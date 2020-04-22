@@ -31,7 +31,7 @@ def generateKey(id):                    #Generate the key file
     path = os.path.join(MEDIA_ROOT,'keys',fname)
     r = requests.get(ipath, allow_redirects=True)
     open(path, 'wb').write(r.content)
-    secret = lsb.hide(path, data)
+    secret = lsb.hide(path, data)             # Stegano library hiding the data
     secret.save(path)
     return key, iv1, iv2,data
 
@@ -42,14 +42,14 @@ def keygenerate(data, id):                              #Regenerate the key file
     path = os.path.join(MEDIA_ROOT+'/keys/', fname)
     r = requests.get(ipath, allow_redirects=True)
     open(path, 'wb').write(r.content)
-    secret = lsb.hide(path, data)
+    secret = lsb.hide(path, data)       # Stegano library hiding the data
     secret.save(path)
 
 def FetchKey(keyfile):                  #Fetch key file from the file.
     fs = FileSystemStorage()
     fs.save(keyfile.name,keyfile)
     path = os.path.join(MEDIA_ROOT, keyfile.name)
-    data = lsb.reveal(path)
+    data = lsb.reveal(path)       # Stegano library revealing the data
     iv = data.split('-')
     key = b64decode(iv[0].encode('utf-8'))
     iv1 = b64decode(iv[1].encode('utf-8'))
