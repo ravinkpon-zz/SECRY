@@ -33,7 +33,7 @@ window.onload = function () {
 });
 
 $(document).ready(function () {
-    $('button').on('change', function (e) {
+    $('#upload-submit').on('change', function (e) {
         var file = document.getElementById('myfile');
         var size = file.files[0].size;
         if (size > 41943040) 
