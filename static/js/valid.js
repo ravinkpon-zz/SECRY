@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    $('form.upload-form').on('submit', function (e) {
+    $('form').on('submit', function (e) {
         var file = document.getElementById('myfile');
         var size = file.files[0].size;
         if (size > 41943040) {
