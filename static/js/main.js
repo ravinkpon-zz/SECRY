@@ -11,6 +11,10 @@ $(window).scroll(function () {
 $(document).ready(function () {
     $('.upload-form input').change(function () {
         $('.upload-form p').text(this.files.length + " file(s) selected");
+        if (this.files[0].size > 41943040) {
+            alert("File is too big!");
+            this.value = "";
+        };
     });
 });
 
