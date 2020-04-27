@@ -34,7 +34,6 @@
     <form class="was-validated upload-form" method="POST" enctype="multipart/form-data" action="{% url 'upload_file' %}" onsubmit="$('#cover-spin').show(0)">
         {% csrf_token %}
         <input type="file" name="myfile" id="myfile" accept=".txt,.csv" required>
-        <div class="invalid-tooltip">Please select a file to upload.</div>
         <p>Drag and drop a file or Click here</p>
         <button type="submit" class="btn btn-success btn-lg btn-block align-items-center"><i class="fa fa-upload"></i> Upload</button>
         <div class="text-center mt-0"><small>Maximum size 40 MB. Only text files.</small></div>
