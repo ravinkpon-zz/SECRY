@@ -1,13 +1,15 @@
 window.onload = function () {
-    var txtPassword = document.getElementById("pass");
-    var txtConfirmPassword = document.getElementById("re_pass");
-    txtPassword.onchange = ConfirmPassword;
-    txtConfirmPassword.onkeyup = ConfirmPassword;
-
-    function ConfirmPassword() {
-        txtConfirmPassword.setCustomValidity("");
-        if (txtPassword.value != txtConfirmPassword.value) {
-            txtConfirmPassword.setCustomValidity("Passwords do not match.");
+    if (document.getElementById("pass") && document.getElementById("re_pass"))
+    {
+        var txtPassword = document.getElementById("pass");
+        var txtConfirmPassword = document.getElementById("re_pass");
+        txtPassword.onchange = ConfirmPassword;
+        txtConfirmPassword.onkeyup = ConfirmPassword;
+        function ConfirmPassword() {
+            txtConfirmPassword.setCustomValidity("");
+            if (txtPassword.value != txtConfirmPassword.value) {
+                txtConfirmPassword.setCustomValidity("Passwords do not match.");
+            }
         }
     }
 }
@@ -32,7 +34,7 @@ window.onload = function () {
     }, false);
 });
 
-$('#upload-submit').on('change', function (e) {
+$('#upload-submit').on('click', function (e) {
     var file = document.getElementById('myfile');
     var size = file.files[0].size;
     if (size > 41943040) 
