@@ -1,13 +1,14 @@
+// Window load script
 $(window).on('load',function () {
     $(".loader").fadeOut("slow");;
 });
 
-
+// Window scroll script
 $(window).scroll(function () {
         $('nav').toggleClass('scrolled',$(this).scrollTop()>200);
     });
 
-    
+// Upload input script    
 $(document).ready(function () {
     $('.upload-form input').change(function () {
         $('.upload-form p').text(this.files.length + " file(s) selected");
@@ -18,14 +19,17 @@ $(document).ready(function () {
     });
 });
 
+// Message fade out script
 $(document).ready(function () {
     window.setTimeout("fadeMyDiv();", 3000); //call fade in 3 seconds
 })
 
+// Message fade out function script
 function fadeMyDiv() {
     $("#myDiv").fadeOut('slow');
 }
 
+// Table filed value selector script
 $('.table tbody').on('click', '.btn', function () {
      var currow = $(this).closest('tr');
      var fid = currow.find('td:eq(0)').text();
@@ -34,6 +38,7 @@ $('.table tbody').on('click', '.btn', function () {
      $('form #filename').val(fname);
 })
 
+// Download page script
 $(document).ready(function () {
     $('#post-form').on('submit', function (e) {
         e.preventDefault();
