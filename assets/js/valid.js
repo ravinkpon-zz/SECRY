@@ -34,12 +34,16 @@ window.onload = function () {
     }, false);
 });
 
-$('#upload-submit').on('submit', function (e) {
+$('.upload-form').on('submit', function (e) {
     var file = document.getElementById('myfile');
     var size = file.files[0].size;
     console.log(size)
     if (size > 41943040) 
     {
         file.setCustomValidity("File size exceed the limit");
+    }
+    else
+    {
+        $('#cover-spin').show(0);
     }
 });

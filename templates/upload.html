@@ -31,11 +31,11 @@
     </div>
 </div>
 <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-    <form class="was-validated upload-form" method="POST" enctype="multipart/form-data" action="{% url 'upload_file' %}" onsubmit="$('#cover-spin').show(0)">
+    <form class="was-validated upload-form" method="POST" enctype="multipart/form-data" action="{% url 'upload_file' %}">
         {% csrf_token %}
         <input type="file" name="myfile" id="myfile" accept=".txt,.csv" required>
         <p>Drag and drop a file or Click here</p>
-        <button type="submit" id="upload-submit" class="btn btn-success btn-lg btn-block align-items-center"><i class="fa fa-upload"></i> Upload</button>
+        <button type="submit" class="btn btn-success btn-lg btn-block align-items-center"><i class="fa fa-upload"></i> Upload</button>
         <div class="text-center mt-0"><small>Maximum size 40 MB. Only text files.</small></div>
         {% if messages %}
             {% for message in messages %}
