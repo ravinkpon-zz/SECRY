@@ -1,3 +1,4 @@
+// Password match checking script
 window.onload = function () {
     if (document.getElementById("pass") && document.getElementById("re_pass"))
     {
