@@ -4,16 +4,13 @@ display-flex,
 .display-flex,
 .display-flex-center,
 .signup-content,
-.signin-content,
-.social-login,
-.socials {
+.signin-content{
   display: flex;
   display: -webkit-flex;
 }
 
 /* @extend list-type-ulli; */
-list-type-ulli,
-.socials {
+list-type-ulli{
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -60,22 +57,6 @@ textarea:focus {
   -webkit-box-shadow: none !important;
   -o-box-shadow: none !important;
   -ms-box-shadow: none !important;
-}
-
-input[type=checkbox] {
-  appearance: checkbox !important;
-  -moz-appearance: checkbox !important;
-  -webkit-appearance: checkbox !important;
-  -o-appearance: checkbox !important;
-  -ms-appearance: checkbox !important;
-}
-
-input[type=radio] {
-  appearance: radio !important;
-  -moz-appearance: radio !important;
-  -webkit-appearance: radio !important;
-  -o-appearance: radio !important;
-  -ms-appearance: radio !important;
 }
 
 .no-js #loader {
