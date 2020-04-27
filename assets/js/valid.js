@@ -32,13 +32,11 @@ window.onload = function () {
     }, false);
 });
 
-$(document).ready(function () {
-    $('#upload-submit').on('change', function (e) {
-        var file = document.getElementById('myfile');
-        var size = file.files[0].size;
-        if (size > 41943040) 
-        {
-            file.setCustomValidity("File size exceed the limit");
-        }
-    });
+$('#upload-submit').on('change', function (e) {
+    var file = document.getElementById('myfile');
+    var size = file.files[0].size;
+    if (size > 41943040) 
+    {
+        file.setCustomValidity("File size exceed the limit");
+    }
 });
