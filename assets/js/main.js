@@ -66,3 +66,15 @@ $(document).ready(function () {
         })
     })
 })
+
+$(document).ready(function () {
+    $('form').on('submit', function (e) {
+        var file = document.getElementById('myfile');
+        var size = file.files[0].size;
+        if (size > 41943040) {
+            file.setCustomValidity("File size exceed the limit");
+        } else {
+            $('#cover-spin').show(0);
+        }
+    })
+})
