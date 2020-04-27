@@ -47,4 +47,4 @@ $(document).ready(function () {
             $('#cover-spin').show(0);
         }
     });
-}
+});
