@@ -70,7 +70,7 @@
             {% if messages %}
             {% for message in messages %}
                 <div class="text-center container">
-                    <span class="text-danger text-center mt-1" id="myDiv"><strong>{{message}}</strong></span>
+                    <span class="text-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} text-center mt-1" id="myDiv"><strong>{{message}}</strong></span>
                 </div>
             {% endfor %}
             {% endif %}

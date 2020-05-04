@@ -90,10 +90,6 @@ def upload_file(request):
         if file_info.objects.filter(file_name=file_name, user=request.user).exists():
             messages.warning(request, 'File with same name already exists.')
             return redirect(reverse_lazy('upload'))
-        elif size > 41943040:
-            messages.warning(
-                request, 'File excceed upload limit, maimum size 40 MB')
-            return redirect(reverse_lazy('upload'))
         else:
             dest = os.path.join(MEDIA_ROOT, 'temp/')
 

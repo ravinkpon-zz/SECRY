@@ -39,7 +39,7 @@
         <div class="text-center mt-0"><small>Maximum size 40 MB. Only text files.</small></div>
         {% if messages %}
             {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} mt-5 text-center"  role="alert" id="myDiv">
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} mt-5 text-center"  role="alert" id="myDiv">
                 <strong>{{message}}</strong>
             </div>
             {% endfor %}
