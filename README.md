@@ -9,4 +9,10 @@ About the project
 
    We provide a cloud storage that uses multiple crypotraphic technique which is known by hybrid cryptography. The product provides confidentiality by using security for both upload and download. The data will be secured since we use multi level security techniques and multiple servers for storage.
 
-For the demo visit at https://secrycloud.tech
+Project Poster : https://www.slideshare.net/alinbabu2010/secry-poster
+
+Project Report : https://www.slideshare.net/alinbabu2010/project-final-report-236750458
+
+Project PPT : https://www.slideshare.net/alinbabu2010/secry-secure-file-storage-on-cloud-using-hybrid-cryptography-236803722
+
+For the demo video visit at https://drive.google.com/file/d/1GS1_mdcnaYZtc76CQ6RZZqt_907DT5Kd/view?usp=sharing
