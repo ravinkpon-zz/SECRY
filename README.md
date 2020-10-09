@@ -11,8 +11,6 @@ About the project
 
 Project Poster : https://www.slideshare.net/alinbabu2010/secry-poster
 
-Project Report : https://www.slideshare.net/alinbabu2010/project-final-report-236750458
-
 Project PPT : https://www.slideshare.net/alinbabu2010/secry-secure-file-storage-on-cloud-using-hybrid-cryptography-236803722
 
 For the demo video visit at https://drive.google.com/file/d/1GS1_mdcnaYZtc76CQ6RZZqt_907DT5Kd/view?usp=sharing
