@@ -4,6 +4,7 @@ from django.conf.urls import url
 from secry import settings
 from django.contrib.auth.views import LogoutView
 
+
 urlpatterns = [
     path('',views.home,name='home'),
     path('change',views.change, name='change'),
