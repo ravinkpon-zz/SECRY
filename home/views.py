@@ -6,12 +6,14 @@ from django.http import HttpResponse, request
 from django.contrib.auth import logout,login
 from django.http.response import HttpResponseRedirect
 from account.views import my_random_string
-from django.template.loader import get_template
-from django.core.mail import EmailMessage
+from django.template.loader import get_template, render_to_string
+from django.core.mail import EmailMessage, EmailMultiAlternatives
 from django.contrib.sites.shortcuts import get_current_site
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from .tokens import account_activation_token
+from django.utils.html import strip_tags
+from django.template import loader
 
 User = get_user_model()
 
@@ -27,16 +29,12 @@ def signin(request):            #  Sigin request
             login(request,user)
             return redirect('dash')
         else:
-            messages.info(request, 'Invalid crenditals')
+            messages.error(request, 'Invalid crenditals')
             return redirect('signin')
 
     else:
         return render(request, 'signin.html')
 
-def signout(request):               #Signout request
-    if request.method == "POST":
-        logout(request)
-        return HttpResponseRedirect("/")
 
 
 def register(request):                      #User registration request and processing
@@ -51,23 +49,21 @@ def register(request):                      #User registration request and proce
         phone = request.POST['phone']
         uid = my_random_string(10)
         if User.objects.filter(username=username).exists():
-            messages.warning(request, 'Username already exists.')
+            messages.error(request, 'Username already exists.')
             return redirect('register')
         elif User.objects.filter(email=email).exists():
-            messages.warning(request, "Email already exists.")
+            messages.error(request, "Email already exists.")
             return redirect('register')
         else:
-            user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,
-                                                email=email, password=password1, location=location, phone=phone)
+            user = User.objects.create_user(user_id=uid,username=username, first_name=first_name, last_name=last_name,email=email, password=password1, location=location, phone=phone)
             user.is_active = False
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your SECRY account.'
-            template = get_template('acc_active_email.html')
-            context = {'user': user, 'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)}
-            text_content = template.render(context)
-            email = EmailMessage(mail_subject, text_content, 'admin@secrycloud.tech', [email])
-            email.send(fail_silently=False)
+            html_message = render_to_string('acc_active_email.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [email], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Confirm'})
+            msg.attach_alternative(html_message, "text/html")
+            msg.send(fail_silently=False)
             messages.info(request, 'Please confirm your email address to complete the registration')
             return render(request, 'response.html')
             
@@ -87,24 +83,53 @@ def activate(request, uidb64, token):               #Email activation function
         messages.success(request, 'Thank you for your email confirmation. Now you can login your account.')
         return render(request, 'response.html')
     else:
-        messages.warning(request, 'Activation link is invalid!')
+        messages.info(request, 'Activation link is invalid!')
         return render(request, 'response.html')
 
 
-def change(request):                        #Account password changing
+def change(request):                        #Account password changing link request
     if(request.method == "POST"):
-        password1 = request.POST['password1']
-        password2 = request.POST['password2']
         emailid = request.POST['email']
         if not User.objects.filter(email=emailid).exists():
             messages.info(request, "Email does not exists.")
             return render(request, 'signin.html')
         else:
             user = User.objects.get(email=emailid)
-            user.set_password(password1)
-            user.save()
-            messages.success(request, "Your passsword has been changed.")
+            uid = user.user_id
+            current_site = get_current_site(request)
+            mail_subject = 'Password Reset'
+            html_message = render_to_string('reset_link.html', {'domain': current_site.domain, 'uid': urlsafe_base64_encode(force_bytes(uid)), 'token': account_activation_token.make_token(user)})
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [emailid], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Reset'})
+            msg.attach_alternative(html_message, "text/html")
+            msg.send(fail_silently=False)
+            messages.success(request, "Your passsword reset link send to the email.")
             return render(request, 'signin.html')
+
+
+def change_pass_link(request, uidb64, token):  # Password reset page request
+    try:
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        user = User.objects.get(user_id=uid)
+    except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+        user = None
+    if account_activation_token.check_token(user, token):
+        email = user.email
+        return render(request, 'reset_password.html',{'email':email})
+    else:
+        messages.warning(request, 'Password reset link is invalid!')
+        return render(request, 'response.html')
+
+def change_password(request):           # Password reset function
+    if(request.method == 'POST'):
+        password1 = request.POST['password1']
+        password2 = request.POST['password2']
+        emailid = request.POST['email']
+        user = User.objects.get(email=emailid)
+        print(emailid)
+        user.set_password(password1)
+        user.save()
+        messages.success(request, "Your passsword has been changed")
+        return render(request, 'signin.html')
 
 
 def contact(request):                   #Contact form processing

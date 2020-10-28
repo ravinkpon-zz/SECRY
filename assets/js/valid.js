@@ -1,13 +1,16 @@
+// Password match checking script
 window.onload = function () {
-    var txtPassword = document.getElementById("pass");
-    var txtConfirmPassword = document.getElementById("re_pass");
-    txtPassword.onchange = ConfirmPassword;
-    txtConfirmPassword.onkeyup = ConfirmPassword;
-
-    function ConfirmPassword() {
-        txtConfirmPassword.setCustomValidity("");
-        if (txtPassword.value != txtConfirmPassword.value) {
-            txtConfirmPassword.setCustomValidity("Passwords do not match.");
+    if (document.getElementById("pass") && document.getElementById("re_pass"))
+    {
+        var txtPassword = document.getElementById("pass");
+        var txtConfirmPassword = document.getElementById("re_pass");
+        txtPassword.onchange = ConfirmPassword;
+        txtConfirmPassword.onkeyup = ConfirmPassword;
+        function ConfirmPassword() {
+            txtConfirmPassword.setCustomValidity("");
+            if (txtPassword.value != txtConfirmPassword.value) {
+                txtConfirmPassword.setCustomValidity("Passwords do not match.");
+            }
         }
     }
 }

@@ -43,23 +43,23 @@
 
                     <div class="signin-form">
                         <h2 class="form-title">Sign In</h2>
-                        <form method="POST" class="register-form" id="login-form" action='{% url 'signin' %}'>
+                        <form method="POST" class="register-form was-validated needs-validation" id="login-form" action='{% url 'signin' %}'>
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                                <input type="text" name="username" id="your_name" placeholder="Your Name" />
+                                <input type="text" name="username" id="your_name" placeholder="Your Name" required />
                             </div>
                             <div class="form-group">
                                 <label for="password"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password" id="your_pass" placeholder="Password" />
+                                <input type="password" name="password" id="your_pass" placeholder="Password" required/>
                             </div>
                             <a class="btn btn-link text-decoration-none text-left px-0 mx-0" data-toggle="modal"
                                 data-target="#forgot-password"><small>Forgot Password</small></a>
                             <div class="form-group form-button">
-                                <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                                <button type="submit" name="signin" id="signin" class="btn btn-primary form-submit">Log in</button>
                             </div>
                             {% for message in messages %}
-                            <span class="text-danger text-center mt-1" id="myDiv" style="position:absolute;margin-bottom:0px;"><strong>
+                            <span class="text-{% if message.tags == 'error' %}danger{% else %}{{message.tags}}{% endif %} text-center mt-1" id="myDiv" style="position:absolute;margin-bottom:0px;"><strong>
                                     {{message}}</strong></span>
                             {% endfor %}
                         </form>
@@ -78,27 +78,17 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                    <form method="POST" class="register-form" id="login-form" action="{% url 'change_password' %}">
+                    <form method="POST"  id="login-form" action="{% url 'change' %}">
                         <div class="modal-body">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="email"><i class="zmdi zmdi-email"></i></label>
                                 <input type="email" name="email" id="email" placeholder="Email" required />
                             </div>
-                            <div class="form-group">
-                                <label for="pass"><i class="zmdi zmdi-lock"></i></label>
-                                <input type="password" name="password1" id="pass" placeholder="New password"
-                                    pattern=".{8,}" title="Atleast eight or more characters" required />
-                                <div class="invalid-tooltip">Please enter a valid password.</div>
-                            </div>
-                            <div class="form-group">
-                                <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                                <input type="password" name="password2" id="re_pass" placeholder="Retype new password"
-                                    required />
-                            </div>
                         </div>
                         <div class="modal-footer">
-                            <input type="submit" class="btn btn-primary form-submit" value="Change password"/>
+                            <a class="btn btn-secondary" data-dismiss="modal">Cancel</a>
+                            <button type="submit" class="btn btn-primary">Reset Password</button>
                         </div>
                     </form>
                 </div>
@@ -109,7 +99,6 @@
     <footer class="text-muted footer mt-5">
         <div class="container-sm text-center">
             <p class="p-0 m-0">&copy; Secry - 2020</p>
-            <p class="p-0 ">Developed by Alin Babu | Akshay P S | Rahul M</p>
         </div>
     </footer>
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -122,7 +111,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
     </script>
-    <script src="{% static 'js/main.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.3/modernizr.js"></script>
     <script src="{% static '/js/valid.js' %}"></script>

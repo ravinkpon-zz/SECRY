@@ -1,17 +1,23 @@
-from django.views.decorators.cache import cache_control
+from django.http import Http404, HttpResponse, JsonResponse, request
 from django.core.files.storage import FileSystemStorage
+from django.core.exceptions import ObjectDoesNotExist
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import cache_control
 from django.contrib.auth.models import User, auth
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect, render
 from django.contrib.auth import logout
 from django.views.static import serve
 from django.contrib import messages
-from django.http import Http404, HttpResponse, JsonResponse, request
+from django.core.files import File
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from secry.settings import BASE_DIR
 from shutil import copyfile
 from account.models import *
 from .functions import *
 from .keys import *
 from uuid import uuid4
+from django.urls import reverse_lazy
 import os
 import random
 import sys
@@ -20,13 +26,9 @@ import logging
 import socket
 import smtplib
 import hashlib
-from django.core.exceptions import ObjectDoesNotExist
-from django.core.files import File
-from django.core.mail import EmailMessage
-from secry.settings import BASE_DIR
-import zlib
-from django.urls import reverse_lazy
-from django.http.response import HttpResponseRedirect
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 file_name = ""
 User = get_user_model()
@@ -45,7 +47,8 @@ def my_random_string(string_length):  # Random string generation for making id
     return random[0:string_length]
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@cache_control(no_cache=True, must_revalidate=True)
+@login_required(login_url='signin')
 def upload(request):  # Upload page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -55,9 +58,9 @@ def upload(request):  # Upload page request function
     else:
         return redirect('signin')
 
-
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 # Download page request function
+@cache_control(no_cache=True, must_revalidate=True)
+@login_required(login_url='signin')
 def download(request):
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -73,6 +76,8 @@ def download(request):
 
 
 # Upload_file function - process the uploading of file
+@cache_control(no_cache=True, must_revalidate=True)
+@login_required(login_url='signin')
 def upload_file(request):
     global storedb
     global uid
@@ -84,10 +89,6 @@ def upload_file(request):
         size = myfile.size
         if file_info.objects.filter(file_name=file_name, user=request.user).exists():
             messages.warning(request, 'File with same name already exists.')
-            return redirect(reverse_lazy('upload'))
-        elif size > 41943040:
-            messages.warning(
-                request, 'File excceed upload limit, maimum size 40 MB')
             return redirect(reverse_lazy('upload'))
         else:
             dest = os.path.join(MEDIA_ROOT, 'temp/')
@@ -106,7 +107,7 @@ def upload_file(request):
             alnum = enc_order()
             listDir = sorted(os.listdir(dest))
             info = file_info.objects.create(
-                file_id=fileid, file_name=file_name, user=request.user, file_size=filesize, file_key=key, file_keydata=data)
+                file_id=fileid, file_name=file_name, user=request.user, file_size=filesize,file_key=data)
             for file in listDir:
                 id = hashlib.sha256(fileid.encode('utf-8')).hexdigest()
                 file_path = os.path.join(dest, file)
@@ -127,25 +128,23 @@ def upload_file(request):
                 data.save(using=storedb[index])
                 os.remove(file_path)
                 index = index+1
-            mail = request.user.email
+            emailid = request.user.email
             name = request.user.first_name
             attach = MEDIA_ROOT + '/keys/' + fileid + '.png'
-            email = EmailMessage(
-                'Key for fileid:'+fileid,
-                'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
-                'admin@secrycloud.tech',
-                [mail],
-                headers={'Message-ID': 'foo'},
-            )
-            email.attach_file(attach)
-            email.send(fail_silently=False)
+            mail_subject = 'File Upload'
+            html_message = render_to_string('key_email.html', {'name': name,'fileid':fileid,'create':1})
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [emailid], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Upload'})
+            msg.attach_alternative(html_message, "text/html")
+            msg.attach_file(attach)
+            msg.send(fail_silently=False)
             os.remove(attach)
             info.save()
             messages.success(request, "File uploaded successfully.")
             return redirect('upload')
 
-
 # Download_file function to process downloading of the file
+@cache_control(no_cache=True, must_revalidate=True)
+@login_required(login_url='signin')
 def download_file(request):
     global file_name
     global storedb
@@ -154,9 +153,9 @@ def download_file(request):
     fileid = request.POST.get('fileid')
     file_name = request.POST.get('filename')
     print(file_name)
-    key, iv1, iv2 = FetchKey(keyfile)
+    data, key, iv1, iv2 = FetchKey(keyfile)
     try:
-        info = file_info.objects.get(file_id=fileid, file_key=key)
+        info = file_info.objects.get(file_id=fileid, file_key=data)
     except ObjectDoesNotExist:
         info = None
     if info is not None:
@@ -211,7 +210,8 @@ def download_file(request):
         return response
     
 
-
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def view(request):                                                  #View uploaded files page request function
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -226,7 +226,8 @@ def view(request):                                                  #View upload
         return redirect('signin')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def dash(request):                                              #Dahboard page of user account request
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -238,7 +239,8 @@ def dash(request):                                              #Dahboard page o
         return redirect('signin')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def account(request):                                               #Account pages request for user details
     if request.user.is_authenticated and request.user.is_active:
         user = User.objects.get(username=request.user.username)
@@ -247,7 +249,8 @@ def account(request):                                               #Account pag
         return redirect('signin')
 
 
-@cache_control(no_cache=True, must_revalidate=True, no_store=True)
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def settings(request):                                              #Account settings page request
     global uid
     if request.user.is_authenticated and request.user.is_active:
@@ -259,6 +262,8 @@ def settings(request):                                              #Account set
         return redirect('signin')
 
 
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def changepass(request):                                           #User account password change
     if(request.method == "POST"):
         password1 = request.POST['password1']
@@ -271,6 +276,8 @@ def changepass(request):                                           #User account
         return redirect('settings')
 
 
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def edituser(request):                                          #User info change process request
     if(request.method == "POST"):
         first_name = request.POST['firstname']
@@ -292,6 +299,9 @@ def edituser(request):                                          #User info chang
         messages.success(request, "Your changes are saved.")
         return render(request, 'settings.html', {"user": user})
 
+
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def delete_file(request):                               #Delete_file from server request
     global file_name
     global storedb
@@ -299,9 +309,9 @@ def delete_file(request):                               #Delete_file from server
         keyfile = request.FILES['keyfile']
         fileid = request.POST['fileid']
         file_name = request.POST['filename']
-        key,iv1,iv2 = FetchKey(keyfile)
+        data = FetchKeyData(keyfile)
         try:
-            info = file_info.objects.get(file_id=fileid, file_key=key)
+            info = file_info.objects.get(file_id=fileid, file_key=data)
         except ObjectDoesNotExist:
             info = None
         if info is None:
@@ -321,6 +331,9 @@ def delete_file(request):                               #Delete_file from server
         messages.success(request, "File deleted sucessfully.")
         return redirect('view')
 
+
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def generate(request):                      #Generate the key file for the user.
     if(request.method=='POST'):
         id = request.POST['fileid']
@@ -329,24 +342,25 @@ def generate(request):                      #Generate the key file for the user.
         except ObjectDoesNotExist:
             info = None
         if info is not None:
-            fkey = info.file_keydata
+            fkey = info.file_key
             keygenerate(fkey,id)
             mail = request.user.email
             name = request.user.first_name
             attach = MEDIA_ROOT + '/keys/' + id + '.png'
-            email = EmailMessage(
-                'Key for fileid:'+id,
-                'Hi '+name+',\n   Please see the attachment below.Use this for accessing the file.Please keep it safe.\n\n\nRegards,\nSecry Team',
-                'admin@secrycloud.tech',
-                [mail],
-                headers={'Message-ID': 'foo'},
-            )
-            email.attach_file(attach)
-            email.send(fail_silently=False)
+            mail_subject = 'Regenerate Key'
+            html_message = render_to_string(
+                'key_email.html', {'name': name, 'fileid': id, 'create': 0})
+            msg = EmailMultiAlternatives(mail_subject, html_message, 'admin@secrycloud.tech', [mail], reply_to=['admin@secrycloud.tech'], headers={'Message-ID': 'Upload'})
+            msg.attach_alternative(html_message, "text/html")
+            msg.attach_file(attach)
+            msg.send(fail_silently=False)
             os.remove(attach)
             messages.success(request, "Key send to the email")
             return redirect('view')
 
+
+@login_required(login_url='signin')
+@cache_control(no_cache=True, must_revalidate=True)
 def delete_account(request):                #Delete a user account and files request.
     user = User.objects.get(username=request.user.username)
     current_user = request.user.user_id

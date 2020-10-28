@@ -11,7 +11,6 @@ class file_info(models.Model):  # File information model on database
     file_name = models.CharField(max_length=50)
     file_size = models.FloatField(max_length=10)
     file_key = models.CharField(max_length=150)
-    file_keydata = models.CharField(max_length=150)
 
 class file_storage(models.Model):               #file storage model on database
     store_id = models.CharField(max_length=150, primary_key=True)
