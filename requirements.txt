@@ -13,7 +13,7 @@ cleo==0.7.6
 clikit==0.4.2
 colorama==0.4.3
 crayons==0.3.0
-cryptography==2.8
+cryptography==3.2
 Django==3.0.7
 django-database-files==0.1
 dnspython==1.16.0
