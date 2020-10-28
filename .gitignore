@@ -29,7 +29,6 @@ account/__pycache__/urls.cpython-38.pyc
 account/__pycache__/views.cpython-38.pyc
 home/__pycache__/tokens.cpython-38.pyc
 000-default.conf
-.gitignore
 default-ssl.conf
 default.conf
 account/migrations/0002_file_info.py
