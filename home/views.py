@@ -153,4 +153,3 @@ def error_404(request,exception):               #404 error page request
 
 def error_500(request):                        #500 error page request
     return render(request, '500.html')
-
