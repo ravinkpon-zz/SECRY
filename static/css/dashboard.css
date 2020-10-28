@@ -1,0 +1,341 @@
+@import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css);
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+
+.no-js #loader {
+    display: none;
+}
+
+.js #loader {
+    display: block;
+    position: absolute;
+    left: 100px;
+    top: 0;
+}
+
+.loader {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background: url("../images/logo.gif") center no-repeat #fff;
+}
+
+main {
+    align-items: center;
+}
+
+.form-control {
+    border: none;
+    border-bottom: 1px solid #999;
+    font-family: Poppins;
+    border-bottom-left-radius: 0%;
+    border-top-left-radius: 0%;
+    border-bottom-right-radius: 0%;
+    border-top-right-radius: 0%;
+}
+
+body {
+    font-size: .875rem;
+    background-color: rgb(182, 179, 178);
+}
+
+.feather {
+    width: 16px;
+    height: 16px;
+    vertical-align: text-bottom;
+}
+
+/* Header */
+#logo-name {
+    font-family: Quantico;
+    font-size: 25px;
+    font-weight: bolder;
+    color: #0FA7D5;
+}
+
+#logo-name:hover {
+    color: rgb(24, 91, 129);
+}
+
+ul li.nav-item {
+    margin: 10px;
+}
+
+/* The side navigation menu */
+.sidebar {
+    margin-left: -250px;
+    top: 60px;
+    padding: 10px;
+    left: 250px;
+    width: 250px;
+    background: #f1f1f1;
+    position: fixed;
+    height: 100%;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: all 0.4s ease 0s;
+}
+
+.sidebar .nav-link {
+    padding: 10px;
+    font-weight: 500;
+    color: rgb(73, 70, 70);
+}
+
+.sidebar .nav-link .feather {
+    margin-right: 4px;
+    color: #999;
+}
+
+.sidebar .nav-link.active {
+    color: #007bff;
+}
+
+.sidebar .nav-link:hover .feather,
+.sidebar .nav-link.active .feather {
+    color: inherit;
+}
+
+/* On screens that are less than 700px wide, make the sidebar into a topbar */
+@media screen and (max-width: 700px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+    }
+
+    .sidebar a {
+        float: left;
+    }
+
+    div.content {
+        margin-left: 0;
+    }
+}
+
+/* On screens that are less than 400px, display the bar vertically, instead of horizontally */
+@media screen and (max-width: 400px) {
+    .sidebar a {
+        text-align: center;
+        float: none;
+    }
+}
+
+/*
+ * Content
+ */
+
+[role="main"] {
+    padding-top: 133px;
+    /* Space for fixed navbar */
+}
+
+@media (min-width: 768px) {
+    [role="main"] {
+        padding-top: 48px;
+        /* Space for fixed navbar */
+    }
+}
+
+/* file upload */
+.upload-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: 20%;
+    margin-left: -250px;
+    margin-bottom: 0px;
+    width: 500px;
+    height: 200px;
+    border: 4px dashed #fff;
+}
+
+.upload-form p {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 170px;
+    color: #ffffff;
+    font-family: Arial;
+}
+
+.upload-form input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+}
+
+/* file download */
+.download-form {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: 20%;
+    margin-left: -250px;
+    margin-bottom: 0px;
+    width: 500px;
+    height: 200px;
+    border: 4px dashed #fff;
+}
+
+.download-form p {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    line-height: 170px;
+    color: #ffffff;
+    font-family: Arial;
+}
+
+.download-form input {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    outline: none;
+    opacity: 0;
+}
+
+/* Table */
+table th {
+    vertical-align: middle;
+    text-align: center;
+}
+
+table td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+p.user-info {
+    font-size: 20px;
+    color: #007bff;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-weight: bold;
+}
+
+p.user-info .feather {
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+
+#myTabContent div {
+    color: coral;
+    font-size: 30px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+
+}
+
+#myTabContent .feather {
+    margin: 10px;
+    height: 25px;
+    width: 25px;
+    color: coral;
+    align-items: center;
+}
+
+div.full-name {
+    margin: 10px;
+    color: rgb(255, 80, 95);
+    font-size: 30px;
+    font-family: 'Lucida Sans',
+        'Lucida Sans Regular',
+        'Lucida Grande',
+        'Lucida Sans Unicode',
+        Geneva,
+        Verdana,
+        sans-serif;
+    align-items: center;
+    align-content: center;
+    padding-right: 50px;
+}
+
+/* footer */
+.footer {
+    position: fixed;
+    bottom: 0px;
+    margin-bottom: 0px;
+    width: 100%;
+    max-width: 100%;
+    padding-top: 10px;
+    width: 100%;
+    background-color: rgb(235, 237, 238);
+    color: rgb(41, 40, 40);
+    height: 65px;
+}
+
+/*Process loader*/
+#cover-spin {
+    display: none;
+    position: fixed;
+    width: 100%;
+    top: 0px; 
+    bottom: 0px;
+    z-index: 9999;
+    background-color: rgba(27, 27, 27, 0.733);
+    text-align: center;
+    vertical-align: middle;
+}
+.loading-flash{
+    left: 50%;
+    top: 50%;
+    position: absolute;
+}
+.loading-flash div {
+    border-radius: 50%;
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    box-sizing: border-box;
+    background: #e5fd0e;
+}
+
+.loading-flash div:nth-of-type(7) {
+    animation: flash 0.8s 0.3s ease-in-out infinite;
+}
+
+.loading-flash div:nth-of-type(6) {
+    animation: flash 0.8s 0.2s ease-in-out infinite;
+}
+
+.loading-flash div:nth-of-type(5) {
+    animation: flash 0.8s 0.1s ease-in-out infinite;
+}
+
+.loading-flash div:nth-of-type(4) {
+    animation: flash 0.8s linear infinite;
+}
+
+.loading-flash div:nth-of-type(3) {
+    animation: flash 0.8s -0.1s linear infinite;
+}
+
+.loading-flash div:nth-of-type(2) {
+    animation: flash 0.8s -0.2s linear infinite;
+}
+
+.loading-flash div:nth-of-type(1) {
+    animation: flash 0.8s -0.3s linear infinite;
+}
+
+@keyframes flash {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.5
+    }
+
+    100% {
+        opacity: 1.0
+    }
+}

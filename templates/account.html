@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% block content %}
+        <!-- The sidebar -->
+        <div class="row navbar-collapse">
+            <div class="col-md-2 d-none d-md-block sidebar bg-light">
+                <a class="nav-link" href="{% url 'dash' %}">
+                    <span data-feather="home"></span>
+                    Dashboard <span class="sr-only">(current)</span>
+                </a>
+                <a class="nav-link" href="{% url 'view' %}">
+                    <span data-feather="file"></span>
+                    Files
+                </a>
+                <a class="nav-link" href="{% url 'upload' %}">
+                    <span data-feather="upload-cloud"></span>
+                    Upload
+                </a>
+                <a class="nav-link" href="{% url 'download' %}">
+                    <span data-feather="download-cloud"></span>
+                    Download
+                </a>
+                <a class="nav-link" href="{% url 'settings' %}">
+                    <span data-feather="settings"></span>
+                    Settings
+                </a>
+                <a class="nav-link active" href="{% url 'account' %}">
+                    <span data-feather="user"></span>
+                    Account
+                </a>
+            </div>
+        </div>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4 mt-5">
+            <div class="container mt-5">
+                <div class="row mt-5">
+                    <div class="col-12">
+                        <div class="card container-fluid">
+                            <div class="card-body">
+                                <div class="card-title mb-4">
+                                    <h3 class="text-primary text-bold">Account Info</h3>
+                                </div>
+                                {% if user %}
+                                <div class="row justify-content-md-center">
+                                    <div class="col-12">
+                                        <div class="ml-1 full-name">
+                                            <div class="row">
+                                                <div class="col">
+                                                    <img src="https://img.icons8.com/bubbles/100/000000/name.png" /> {{ user.get_full_name }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div><br>
+                                <hr />
+                                <div class="row justify-content-md-center">
+                                    <div class="col-12">
+                                        <div class="ml-1 " id="myTabContent">
+                                            <div class="row">
+                                                <div class=" col">
+                                                    <span class="feather" data-feather="hash"></span>UserID
+                                                </div>
+                                                <div class="col">
+                                                    {{user.user_id}}
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row">
+                                                <div class="col">
+                                                    <span class="feather" data-feather="user"></span>Username
+                                                </div>
+                                                <div class="col">
+                                                    {{user.username}}
+                                                </div>
+                                            </div>
+                                            <hr />
+
+                                            <div class="row">
+                                                <div class=" col">
+                                                    <span class="feather" data-feather="mail"></span>Email
+                                                </div>
+                                                <div class="col">
+                                                    {{user.email}}
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row">
+                                                <div class=" col">
+                                                    <span class="feather" data-feather="phone"></span>Phone
+                                                </div>
+                                                <div class="col">
+                                                    {{user.phone}}
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row">
+                                                <div class=" col">
+                                                    <span class="feather" data-feather="map-pin"></span>Location
+                                                </div>
+                                                <div class="col">
+                                                    {{user.location}}
+                                                </div>
+                                            </div>
+                                            <hr />
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+{% endblock %}   

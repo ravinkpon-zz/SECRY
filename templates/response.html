@@ -1,0 +1,66 @@
+{% load static %}
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Secry</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- Font Icon -->
+  <link href='https://fonts.googleapis.com/css?family=Poppins' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Quantico' rel='stylesheet'>
+  <link rel="icon" href="{% static 'images/logot-25.png' %}" type="image/x-icon">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .container {
+      width: auto;
+      max-width: 680px;
+      padding: 0 15px;
+    }
+
+    .footer {
+      background-color: #f5f5f5;
+    }
+  </style>
+</head>
+
+<body class="d-flex flex-column h-100">
+  <!-- Begin page content -->
+  <main role="main" class="mt-5">
+    <div class="container text-center mt-5">
+      {% for message in messages %}
+      <p class="text-{{message.tags}}">{{message}}</p>
+      {% endfor %}
+      <a href="{% url 'home' %}" type="button" class="btn btn-warning btn-lg text-dark">Back to homepage</a>
+    </div>
+  </main>
+
+  <footer class="footer mt-auto py-3 text-center">
+    <div class="container">
+      <span class="text-muted">&copy; Secry - 2020</p></span>
+    </div>
+  </footer>
+</body>
+
+</html>

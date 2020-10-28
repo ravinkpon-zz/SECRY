@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- The sidebar -->
+<div class="row navbar-collapse">
+    <div class="col-md-2 d-none d-md-block sidebar bg-light">
+        <a class="nav-link" href="{% url 'dash' %}">
+            <span data-feather="home"></span>
+            Dashboard <span class="sr-only">(current)</span>
+        </a>
+        <a class="nav-link" href="{% url 'view' %}">
+            <span data-feather="file"></span>
+            Files
+        </a>
+        <a class="nav-link" href="{% url 'upload' %}">
+            <span data-feather="upload-cloud"></span>
+            Upload
+        </a>
+        <a class="nav-link" href="{% url 'download' %}">
+            <span data-feather="download-cloud"></span>
+            Download
+        </a>
+        <a class="nav-link active" href="{% url 'settings' %}">
+            <span data-feather="settings"></span>
+            Settings
+        </a>
+        <a class="nav-link" href="{% url 'account' %}">
+            <span data-feather="user"></span>
+            Account
+        </a>
+    </div>
+</div>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 mt-5 container-fluid mr-5">
+    <div class="row mt-5 justify-content-center mr-5">
+        <div class="col-md-5 align-middle mr-5">
+            <div class="card text-primary bg-light align-middle">
+                <div class="card-header">
+                    <h5 class="card-title">Edit Profile</h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="register-form was-validated needs-validation" id="register-form"
+                        name="update-profile" action="{% url 'edituser' %}" onsubmit="$('#cover-spin').show(0)">
+                        {% csrf_token %}
+                        {% if user %}
+                        <div class="form-group">
+                            <label for="name"><i class="zmdi zmdi-account-circle material-icons-name"></i>
+                                Username</label>
+                            <input type="text" class="form-control" name="username" id="uname" placeholder="Username"
+                                required value="{{ user.username }}" />
+                            <div class="invalid-tooltip">Please choose a unique and valid username.
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i>
+                                First Name</label>
+                            <input type="text" class="form-control" name="firstname" id="fname" placeholder="First Name"
+                                pattern="[a-zA-Z]+" title=" Valid name only" required value="{{ user.first_name }}" />
+                            <div class="invalid-tooltip">Please enter a valid name.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name"><i class="zmdi zmdi-account material-icons-name"></i> Last
+                                Name</label>
+                            <input type="text" class="form-control" name="lastname" id="lname" placeholder="Last Name"
+                                pattern="[a-zA-Z]+" title=" Valid name only" required value="{{ user.last_name }}" />
+                            <div class="invalid-tooltip">Please enter a valid name.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="location"><i class="zmdi zmdi-my-location"></i> Location</label>
+                            <input type="text" class="form-control" name="location" id="locate" placeholder="Place"
+                                required value="{{ user.location }}" />
+                            <div class="invalid-tooltip">Please enter a location.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone"><i class="zmdi zmdi-phone"></i> Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" pattern="[0-9]{10}"
+                                placeholder="Phone No: 9445215362" required value="{{ user.phone }}" />
+                            <div class="invalid-tooltip">Please enter a valid phone number.</div>
+                        </div>
+                        <div class="form-group form-button text-center mt-4">
+                            <button type="submit" class="btn btn-primary form-submit" name="update-profile"
+                                id='submit'>Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endif %}
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} mt-5 text-center" role="alert" id="myDiv">
+                <strong>{{message}}</strong>
+            </div>
+            {% endfor %}
+            {% endif %}
+        </div>
+        <div class="col-md-5 justify-content-around mt-2">
+            <div class="card text-primary bg-light">
+                <div class="card-header">
+                    <h5 class="card-title">Change Password</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md pr-1">
+                            <form method="POST" class="register-form" name="changepass" action="{% url 'changepass' %}" onsubmit="$('#cover-spin').show(0)">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="email"><i class="zmdi zmdi-email"></i>
+                                        Email</label>{% if user   %}
+                                    <input type="email" class="form-control" name="email" id="email" placeholder="Email"
+                                        value="{{ user.email }}" readonly />{% endif %}
+                                </div>
+                                <div class="form-group">
+                                    <label for="pass"><i class="zmdi zmdi-lock"></i> New password</label>
+                                    <input type="password" class="form-control" name="password1" id="pass"
+                                        pattern=".{8,}" title="Atleast eight or more characters" required />
+                                    <div class="invalid-tooltip">Please enter a valid password.</div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i> Retype new
+                                        password</label>
+                                    <input type="password" class="form-control" name="password2" id="re_pass"
+                                        required />
+                                </div>
+                                <div class="update text-center form-button">
+                                    <input type="submit" class="btn btn-primary form-submit" name="changepass"
+                                        value="Change Password" />
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-primary bg-light mt-5">
+                <div class="card-header">
+                    <h5 class="card-title">Delete Account</h5>
+                </div>
+                <div class="card-body">
+                    <div class="text-center text-danger mx-2">
+                        <p>
+                            You may lose your files and cannot retrive it. Once deleted account can't be
+                            retrived.
+                            <br>
+                            Click below to delete your account.
+                        </p>
+                    </div>
+                    <div class="text-center">
+                        <a href="#myModal" data-toggle="modal" class="trigger-btn btn btn-danger btn-round">Delete
+                            Account</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+</div>
+<!-- Modal HTML -->
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmation</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete your account? This action cannot be undone and you will be unable to
+                    recover any data.</p>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-info" data-dismiss="modal">Cancel</a>
+                <a href="{% url 'delete_account' %}"  class="btn btn-danger" onclick="$('#cover-spin').show(0)">Yes,
+                    delete it!</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
